@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer", "GeoViewer\GeoViewer.csproj", "{E4EF6924-3B98-4BDB-8C4E-1EC3B8AB7569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Common", "GeoViewer.Common\GeoViewer.Common.csproj", "{C6FCBB7E-209C-45B8-AA25-BA9FE96277F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Modules.Welcome", "GeoViewer.Modules.Welcome\GeoViewer.Modules.Welcome.csproj", "{262CC5A5-165D-489A-B9D8-5F66D163AE45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Modules.Attributes", "GeoViewer.Modules.Attributes\GeoViewer.Modules.Attributes.csproj", "{F1D9B353-0681-40D9-907F-BE9206D57F07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Modules.Structure", "GeoViewer.Modules.Structure\GeoViewer.Modules.Structure.csproj", "{54F04B60-21A1-4433-BFF3-DA6A16E76FF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Modules.Properties", "GeoViewer.Modules.Properties\GeoViewer.Modules.Properties.csproj", "{3174021C-5BCD-47E1-8D90-177808704A55}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoViewer.Modules.Geometry", "GeoViewer.Modules.Geometry\GeoViewer.Modules.Geometry.csproj", "{EC4C903E-8269-4252-9D78-3AFF60B72F1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4EF6924-3B98-4BDB-8C4E-1EC3B8AB7569}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4EF6924-3B98-4BDB-8C4E-1EC3B8AB7569}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4EF6924-3B98-4BDB-8C4E-1EC3B8AB7569}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4EF6924-3B98-4BDB-8C4E-1EC3B8AB7569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6FCBB7E-209C-45B8-AA25-BA9FE96277F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6FCBB7E-209C-45B8-AA25-BA9FE96277F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6FCBB7E-209C-45B8-AA25-BA9FE96277F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6FCBB7E-209C-45B8-AA25-BA9FE96277F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{262CC5A5-165D-489A-B9D8-5F66D163AE45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{262CC5A5-165D-489A-B9D8-5F66D163AE45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{262CC5A5-165D-489A-B9D8-5F66D163AE45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{262CC5A5-165D-489A-B9D8-5F66D163AE45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D9B353-0681-40D9-907F-BE9206D57F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D9B353-0681-40D9-907F-BE9206D57F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D9B353-0681-40D9-907F-BE9206D57F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D9B353-0681-40D9-907F-BE9206D57F07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F04B60-21A1-4433-BFF3-DA6A16E76FF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F04B60-21A1-4433-BFF3-DA6A16E76FF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F04B60-21A1-4433-BFF3-DA6A16E76FF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F04B60-21A1-4433-BFF3-DA6A16E76FF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3174021C-5BCD-47E1-8D90-177808704A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3174021C-5BCD-47E1-8D90-177808704A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3174021C-5BCD-47E1-8D90-177808704A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3174021C-5BCD-47E1-8D90-177808704A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC4C903E-8269-4252-9D78-3AFF60B72F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC4C903E-8269-4252-9D78-3AFF60B72F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC4C903E-8269-4252-9D78-3AFF60B72F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC4C903E-8269-4252-9D78-3AFF60B72F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

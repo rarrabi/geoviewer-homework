@@ -12,14 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
-namespace GeoViewer
+namespace GeoViewer.Views
 {
-    public partial class Shell : Window
+    public partial class Shell : MetroWindow
     {
         public Shell()
         {
             this.InitializeComponent();
+        }
+
+        public Shell(ViewModels.ShellViewModel viewModel)
+            : this()
+        {
+            this.DataContext = viewModel;
         }
     }
 }

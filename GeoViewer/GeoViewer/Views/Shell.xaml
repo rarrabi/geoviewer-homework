@@ -1,0 +1,20 @@
+﻿<mmc:MetroWindow x:Class="GeoViewer.Views.Shell"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mmc="http://metro.mahapps.com/winfx/xaml/controls" xmlns:p="http://www.codeplex.com/prism"
+        xmlns:gvm="clr-namespace:GeoViewer.ViewModels" xmlns:gc="clr-namespace:GeoViewer.Common;assembly=GeoViewer.Common"
+        Title="GeoViewer"
+        Width="1280" Height="720" MinWidth="640" MinHeight="360"
+        BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1"
+        d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gvm:ShellViewModel}}" mc:Ignorable="d">
+    <Grid Margin="12,12,12,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Column="0" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Left}" />
+        <ContentControl Grid.Column="1" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Main}" />
+        <ContentControl Grid.Column="2" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Right}" />
+    </Grid>
+</mmc:MetroWindow>

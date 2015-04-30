@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StructureModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoViewer.Common\GeoViewer.Common.csproj">

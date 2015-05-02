@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("GeoViewer Homework Assignment @ ELTE-IK")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ELTE")]
+[assembly: AssemblyCompany("ELTE-IK")]
 [assembly: AssemblyProduct("GeoViewer")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]

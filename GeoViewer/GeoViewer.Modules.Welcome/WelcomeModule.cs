@@ -35,9 +35,8 @@ namespace GeoViewer.Modules.Welcome
         {
             this.logger.Log("Initializing GeoViewer.Modules.Welcome.WelcomeModule.", Category.Debug, Priority.Low);
 
-            // TODO
-            ////this.container.RegisterType<object, Views.WelcomeView>(Constants.Navigation.Welcome);
-            ////this.container.RegisterType<ViewModels.WelcomeViewModel>();
+            this.container.RegisterType<object, Views.WelcomeView>(Constants.Navigation.Welcome);
+            this.container.RegisterType<ViewModels.WelcomeViewModel>();
         }
     }
 }

@@ -35,9 +35,8 @@ namespace GeoViewer.Modules.Geometry
         {
             this.logger.Log("Initializing GeoViewer.Modules.Geometry.GeometryModule.", Category.Debug, Priority.Low);
 
-            // TODO
-            ////this.container.RegisterType<object, Views.GeometryView>(Constants.Navigation.Geometry);
-            ////this.container.RegisterType<ViewModels.GeometryViewModel>();
+            this.container.RegisterType<object, Views.GeometryView>(Constants.Navigation.Geometry);
+            this.container.RegisterType<ViewModels.GeometryViewModel>();
         }
     }
 }

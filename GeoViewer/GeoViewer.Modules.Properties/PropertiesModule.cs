@@ -35,9 +35,8 @@ namespace GeoViewer.Modules.Properties
         {
             this.logger.Log("Initializing GeoViewer.Modules.Properties.PropertiesModule.", Category.Debug, Priority.Low);
 
-            // TODO
-            ////this.container.RegisterType<object, Views.PropertiesView>(Constants.Navigation.Properties);
-            ////this.container.RegisterType<ViewModels.PropertiesViewModel>();
+            this.container.RegisterType<object, Views.PropertiesView>(Constants.Navigation.Properties);
+            this.container.RegisterType<ViewModels.PropertiesViewModel>();
         }
     }
 }

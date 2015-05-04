@@ -35,9 +35,8 @@ namespace GeoViewer.Modules.Structure
         {
             this.logger.Log("Initializing GeoViewer.Modules.Structure.StructureModule.", Category.Debug, Priority.Low);
 
-            // TODO
-            ////this.container.RegisterType<object, Views.StructureView>(Constants.Navigation.Structure);
-            ////this.container.RegisterType<ViewModels.StructureViewModel>();
+            this.container.RegisterType<object, Views.StructureView>(Constants.Navigation.Structure);
+            this.container.RegisterType<ViewModels.StructureViewModel>();
         }
     }
 }

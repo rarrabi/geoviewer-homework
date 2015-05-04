@@ -17,11 +17,11 @@ namespace GeoViewer.Common
 
         public static class Navigation
         {
-            public const string Welcome = "WelcomeView"; // typeof(WelcomeView).FullName
-            public const string Properties = "PropertiesView"; // typeof(PropertiesView).FullName
-            public const string Structure = "StructureView"; // typeof(StructureView).FullName
-            public const string Attributes = "AttributesView"; // typeof(AttributesView).FullName
-            public const string Geometry = "GeometryView"; // typeof(GeometryView).FullName
+            public const string Welcome = "GeoViewer.Modules.Welcome.Views.WelcomeView"; // typeof(GeoViewer.Modules.Welcome.Views.WelcomeView).FullName;
+            public const string Properties = "GeoViewer.Modules.Properties.Views.PropertiesView"; // typeof(GeoViewer.Modules.Properties.Views.PropertiesView).FullName
+            public const string Structure = "GeoViewer.Modules.Structure.Views.StructureView"; // typeof(GeoViewer.Modules.Structure.Views.StructureView).FullName
+            public const string Attributes = "GeoViewer.Modules.Attributes.Views.AttributesView"; // typeof(GeoViewer.Modules.Attributes.Views.AttributesView).FullName
+            public const string Geometry = "GeoViewer.Modules.Geometry.Views.GeometryView"; // typeof(GeoViewer.Modules.Geometry.Views.GeometryView).FullName
         }
 
         public static class NavigationParameters

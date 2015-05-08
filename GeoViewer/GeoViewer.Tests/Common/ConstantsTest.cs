@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GeoViewer;
-using GeoViewer.Common;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GeoViewer.Common.Tests
+namespace GeoViewer.Common
 {
     [TestClass]
     public class ConstantsTest

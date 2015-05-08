@@ -35,6 +35,9 @@ namespace GeoViewer.Modules.Welcome
         {
             this.logger.Log("Initializing GeoViewer.Modules.Welcome.WelcomeModule.", Category.Debug, Priority.Low);
 
+            this.container.RegisterType<Services.IFileService, Services.FileService>();
+            this.container.RegisterType<Services.IRecentFileService, Services.XmlRecentFileService>(new InjectionConstructor("GeoViewer.RecentFiles.xml", 10));
+
             this.container.RegisterType<object, Views.WelcomeView>(Constants.Navigation.Welcome);
             this.container.RegisterType<ViewModels.WelcomeViewModel>();
         }

@@ -7,6 +7,7 @@ using System.Windows;
 using GeoViewer.Common;
 using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Modularity;
+using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.Prism.UnityExtensions;
 using Microsoft.Practices.Unity;
@@ -43,6 +44,8 @@ namespace GeoViewer
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
+
+            this.Container.RegisterType<IEventAggregator, EventAggregator>();
 
             this.Container.RegisterType<Views.Shell>();
             this.Container.RegisterType<ViewModels.ShellViewModel>();

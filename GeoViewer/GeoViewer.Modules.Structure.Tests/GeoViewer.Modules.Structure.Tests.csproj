@@ -150,6 +150,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\StructureItemViewModelTest.cs" />
+    <Compile Include="ViewModels\StructureViewModelTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GeoViewer.Common\GeoViewer.Common.csproj">

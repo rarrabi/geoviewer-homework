@@ -42,7 +42,8 @@ namespace GeoViewer.Modules.Welcome.Services
                 return;
             }
 
-            // TODO
+            // TODO FileService#Open
+            throw new NotImplementedException();
             var isSuccess = true;
 
             // Update the list of recent files.

@@ -11,6 +11,7 @@ using Microsoft.Win32;
 
 namespace GeoViewer.Modules.Welcome.Interactivity
 {
+    // TODO OpenFileActionTest
     public class OpenFileAction : TriggerAction<FrameworkElement>
     {
         protected override void Invoke(object parameter)
@@ -27,10 +28,8 @@ namespace GeoViewer.Modules.Welcome.Interactivity
                 return;
             }
 
-            var window = this.FindParent<Window>();
-
             var openFileDialog = new OpenFileDialog() { CheckFileExists = true, CheckPathExists = true, Filter = openFile.Filter, ValidateNames = true };
-            if (openFileDialog.ShowDialog(window) == true)
+            if (openFileDialog.ShowDialog(this.FindParent<Window>()) == true)
             {
                 openFile.Confirmed = true;
                 openFile.FileName = openFileDialog.FileName;

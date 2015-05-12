@@ -34,8 +34,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         {
             get
             {
-                var name = Path.GetFileNameWithoutExtension(this.fileName);
-                return name;
+                return Path.GetFileNameWithoutExtension(this.fileName);
             }
         }
     }

@@ -70,8 +70,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         {
             get
             {
-                var recentFiles = this.recentFileService.RecentFiles.Select(f => new RecentFileViewModel(f));
-                return recentFiles.ToList().AsReadOnly();
+                return this.recentFileService.RecentFiles.Select(f => new RecentFileViewModel(f)).ToList().AsReadOnly();
             }
         }
 

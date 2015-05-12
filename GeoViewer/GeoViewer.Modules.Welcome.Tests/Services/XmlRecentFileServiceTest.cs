@@ -84,7 +84,10 @@ namespace GeoViewer.Modules.Welcome.Services
             var testDocument = new XDocument(new XElement("RecentFiles", testRecentFiles.Select(rf => new XElement("RecentFile", new XAttribute("fileName", rf))).ToArray()));
 
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
-            testRecentFiles.Reverse().ToList().ForEach(xmlRecentFileService.Add);
+            foreach (var testRecentFile in testRecentFiles.Reverse())
+            {
+                xmlRecentFileService.Add(testRecentFile);
+            }
 
             var document = XDocument.Load(testFileName);
 

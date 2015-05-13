@@ -32,6 +32,13 @@ namespace GeoViewer.Modules.Welcome.Services
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void TestNullRecentFileService()
+        {
+            var fileService = new FileService(null);
+        }
+
+        [TestMethod]
         public void TestFilter()
         {
             var mockRecentFileService = new Mock<IRecentFileService>();

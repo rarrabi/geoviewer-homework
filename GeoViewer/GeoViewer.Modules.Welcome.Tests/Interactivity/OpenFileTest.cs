@@ -19,6 +19,14 @@ namespace GeoViewer.Modules.Welcome.Interactivity
         }
 
         [TestMethod]
+        public void TestDefaultFilter()
+        {
+            var openFile = new OpenFile();
+
+            Assert.AreEqual(string.Empty, openFile.Filter);
+        }
+
+        [TestMethod]
         public void TestFilter()
         {
             var testFilter = "TestFiler";

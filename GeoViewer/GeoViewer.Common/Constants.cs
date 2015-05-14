@@ -42,6 +42,7 @@ namespace GeoViewer.Common
 
             public static class Attributes
             {
+                public const string Source = "Source"; // type: object
             }
 
             public static class Geometry

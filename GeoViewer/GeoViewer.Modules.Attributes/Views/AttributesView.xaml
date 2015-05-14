@@ -5,6 +5,6 @@
         xmlns:ga="clr-namespace:GeoViewer.Modules.Attributes" xmlns:gavm="clr-namespace:GeoViewer.Modules.Attributes.ViewModels"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gavm:AttributesViewModel}}" mc:Ignorable="d">
     <Grid>
-
+        <DataGrid ItemsSource="{Binding Attributes}" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" />
     </Grid>
 </UserControl>

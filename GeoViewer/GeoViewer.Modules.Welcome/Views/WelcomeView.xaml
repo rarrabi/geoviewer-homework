@@ -12,8 +12,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Start" />
-            <Button Command="{Binding OpenCommand}"
-                    Content="Open..." HorizontalAlignment="Left" />
+            <Button Command="{Binding OpenCommand}" Content="Open..." HorizontalAlignment="Left" />
             <TextBlock Text="Recent" />
             <ItemsControl ItemsSource="{Binding RecentFiles}" HorizontalAlignment="Left">
                 <ItemsControl.ItemsPanel>

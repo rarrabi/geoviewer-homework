@@ -76,7 +76,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var testName = "TestName";
             var testType = "TestType";
-            var testChildren = new List<StructureItemViewModel>() { new StructureItemViewModel("TestName1", "TestType1"), new StructureItemViewModel("TestName2", "TestType2"), new StructureItemViewModel("TestName3", "TestType3") }.AsReadOnly();
+            var testChildren =
+                new List<StructureItemViewModel>() 
+                { 
+                    new StructureItemViewModel("TestName1", "TestType1"), 
+                    new StructureItemViewModel("TestName2", "TestType2"), 
+                    new StructureItemViewModel("TestName3", "TestType3") 
+                }.AsReadOnly();
 
             var structureItemViewModel = new StructureItemViewModel(testName, testType, testChildren);
 
@@ -88,7 +94,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var testName = "TestName";
             var testType = "TestType";
-            var testChildren = new List<StructureItemViewModel>() { new StructureItemViewModel("TestName1", "TestType1"), new StructureItemViewModel("TestName2", "TestType2"), new StructureItemViewModel("TestName3", "TestType3") }.AsReadOnly();
+            var testChildren =
+                new List<StructureItemViewModel>()
+                { 
+                    new StructureItemViewModel("TestName1", "TestType1"),
+                    new StructureItemViewModel("TestName2", "TestType2"),
+                    new StructureItemViewModel("TestName3", "TestType3") 
+                }.AsReadOnly();
 
             var structureItemViewModel = new StructureItemViewModel(testName, testType, testChildren);
 
@@ -100,7 +112,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var testName = "TestName";
             var testType = "TestType";
-            var testChildren = new List<StructureItemViewModel>() { new StructureItemViewModel("TestName1", "TestType1"), new StructureItemViewModel("TestName2", "TestType2"), new StructureItemViewModel("TestName3", "TestType3") }.AsReadOnly();
+            var testChildren =
+                new List<StructureItemViewModel>() 
+                {
+                    new StructureItemViewModel("TestName1", "TestType1"), 
+                    new StructureItemViewModel("TestName2", "TestType2"),
+                    new StructureItemViewModel("TestName3", "TestType3") 
+                }.AsReadOnly();
 
             var structureItemViewModel = new StructureItemViewModel(testName, testType, testChildren);
 

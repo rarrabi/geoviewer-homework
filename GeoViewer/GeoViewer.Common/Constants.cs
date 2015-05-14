@@ -32,6 +32,7 @@ namespace GeoViewer.Common
 
             public static class Properties
             {
+                public const string Source = "Source"; // type: object
             }
 
             public static class Structure

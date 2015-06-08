@@ -11,6 +11,9 @@ using Microsoft.Practices.Prism.Regions;
 
 namespace GeoViewer.Modules.Structure.ViewModels
 {
+    /// <summary>
+    /// View model for StructureView.xaml.
+    /// </summary>
     public class StructureViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         private readonly SelectedEvent selectedEvent;
@@ -21,6 +24,10 @@ namespace GeoViewer.Modules.Structure.ViewModels
         private StructureItemViewModel root;
         private StructureItemViewModel selected;
 
+        /// <summary>
+        /// Initializes a new instance of the StructureViewModel class.
+        /// </summary>
+        /// <param name="eventAggregator">A Microsoft.Practices.Prism.PubSubEvents.IEventAggregator.</param>
         public StructureViewModel(IEventAggregator eventAggregator)
         {
             if (eventAggregator == null)
@@ -32,6 +39,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             this.selectedEvent.Subscribe(this.OnSelectedEvent);
         }
 
+        /// <summary>
+        /// Gets the root structure item.
+        /// </summary>
         public StructureItemViewModel Root
         {
             get
@@ -45,6 +55,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets or sets the selected structure item.
+        /// </summary>
         public StructureItemViewModel Selected
         {
             get
@@ -58,6 +71,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 {
                     if (this.selected != null)
                     {
+                        // Publish an object selection event when the selected item is updated to a non-null item.
                         var source = (object)null;
                         if (this.sources.TryGetValue(this.selected, out source))
                         {
@@ -68,6 +82,10 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Execution logic when the SelectedEvent is published.
+        /// </summary>
+        /// <param name="selected">The selected object.</param>
         private void OnSelectedEvent(object selected)
         {
             if (selected == null)
@@ -78,11 +96,17 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var item = (StructureItemViewModel)null;
             if (this.items.TryGetValue(selected, out item))
             {
+                // Avoid publishing an object selection event.
                 this.selected = item;
                 this.OnPropertyChanged(() => this.Selected);
             }
         }
 
+        /// <summary>
+        /// Converts an object to a structure item hierarchy.
+        /// </summary>
+        /// <param name="source">An object.</param>
+        /// <returns>The object converted to a structure item hierarchy.</returns>
         private StructureItemViewModel ToStructureItemViewModel(object source)
         {
             // TODO StructureViewModel#ToStructureItemViewModel
@@ -91,6 +115,11 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
         #region INavigationAware
 
+        /// <summary>
+        /// Called to determine if this instance can handle the navigation request.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>true if this instance accepts the navigation request; otherwise, false.</returns>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Structure.Source];
@@ -98,11 +127,19 @@ namespace GeoViewer.Modules.Structure.ViewModels
             return this.root == null || this.sources[this.root] == source;
         }
 
+        /// <summary>
+        /// Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             // Nothing to do.
         }
 
+        /// <summary>
+        /// Called when the implementer has been navigated to.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Structure.Source];
@@ -114,11 +151,14 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
         #region IRegionMemberLifetime
 
+        /// <summary>
+        /// Gets a value indicating whether this instance should be kept-alive upon deactivation.
+        /// </summary>
         public bool KeepAlive
         {
             get
             {
-                // The View and ViewModel should be kept alive / should not be disposed.
+                // The view / view model should be kept alive / should not be disposed.
                 return true;
             }
         }

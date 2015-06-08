@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace GeoViewer.Common
 {
+    /// <summary>
+    /// Contains constants.
+    /// </summary>
     public static class Constants
     {
+        /// <summary>
+        /// Contains region names.
+        /// </summary>
         public static class Region
         {
             public const string Left = "LeftRegion";
@@ -15,6 +21,9 @@ namespace GeoViewer.Common
             public const string Right = "RightRegion";
         }
 
+        /// <summary>
+        /// Contains navigation URIs.
+        /// </summary>
         public static class Navigation
         {
             public const string Welcome = "GeoViewer.Modules.Welcome.Views.WelcomeView"; // typeof(GeoViewer.Modules.Welcome.Views.WelcomeView).FullName;
@@ -24,27 +33,45 @@ namespace GeoViewer.Common
             public const string Geometry = "GeoViewer.Modules.Geometry.Views.GeometryView"; // typeof(GeoViewer.Modules.Geometry.Views.GeometryView).FullName
         }
 
+        /// <summary>
+        /// Contains navigation parameters.
+        /// </summary>
         public static class NavigationParameters
         {
+            /// <summary>
+            /// Contains navigation parameters for the Welcome view / view model.
+            /// </summary>
             public static class Welcome
             {
             }
 
+            /// <summary>
+            /// Contains navigation parameters for the Properties view / view model.
+            /// </summary>
             public static class Properties
             {
                 public const string Source = "Source"; // type: object
             }
 
+            /// <summary>
+            /// Contains navigation parameters for the Structure view / view model.
+            /// </summary>
             public static class Structure
             {
                 public const string Source = "Source"; // type: object
             }
 
+            /// <summary>
+            /// Contains navigation parameters for the Attributes view / view model.
+            /// </summary>
             public static class Attributes
             {
                 public const string Source = "Source"; // type: object
             }
 
+            /// <summary>
+            /// Contains navigation parameters for the Geometry view / view model.
+            /// </summary>
             public static class Geometry
             {
             }

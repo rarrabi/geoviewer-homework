@@ -7,10 +7,18 @@ using System.Threading.Tasks;
 
 namespace GeoViewer.Modules.Welcome.Services
 {
+    /// <summary>
+    /// Service for handling files.
+    /// </summary>
+    /// <see cref="GeoViewer.Modules.Welcome.Services.IFileService"/>
     public class FileService : IFileService
     {
         private readonly IRecentFileService recentFileService;
 
+        /// <summary>
+        /// Initializes a new instance of the FileService class.
+        /// </summary>
+        /// <param name="recentFileService">A GeoViewer.Modules.Welcome.Services.IRecentFileService.</param>
         public FileService(IRecentFileService recentFileService)
         {
             if (recentFileService == null)
@@ -21,6 +29,10 @@ namespace GeoViewer.Modules.Welcome.Services
             this.recentFileService = recentFileService;
         }
 
+        /// <summary>
+        /// Gets the filter string that determines what types of files are displayed.
+        /// See: https://msdn.microsoft.com/en-us/library/microsoft.win32.filedialog.filter(v=vs.110).aspx
+        /// </summary>
         public string Filter
         {
             get
@@ -29,12 +41,15 @@ namespace GeoViewer.Modules.Welcome.Services
             }
         }
 
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
         public void Open(string fileName)
         {
-            // Convert the file name to the absolute / fully qualified file name.
+            // Convert the file name to an absolute / fully qualified file name.
             fileName = Path.GetFullPath(fileName);
 
-            // Validate the file name.
             if (!this.IsValid(fileName))
             {
                 // Remove invalid files from the list of recent files.
@@ -42,12 +57,7 @@ namespace GeoViewer.Modules.Welcome.Services
                 return;
             }
 
-            // TODO FileService#Open
-            throw new NotImplementedException();
-            var isSuccess = true;
-
-            // Update the list of recent files.
-            if (isSuccess)
+            if (this.DoOpen(fileName))
             {
                 // Add valid files to the list of recent files.
                 this.recentFileService.Add(fileName);
@@ -59,6 +69,21 @@ namespace GeoViewer.Modules.Welcome.Services
             }
         }
 
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
+        /// <returns>A value indicating whether the file was opened successfully.</returns>
+        private bool DoOpen(string fileName)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Determines whether a file name is valid.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
+        /// <returns>A value indicating whether the file name is valid.</returns>
         private bool IsValid(string fileName)
         {
             var fileInfo = new FileInfo(fileName);

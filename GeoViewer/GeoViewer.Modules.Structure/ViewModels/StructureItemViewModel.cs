@@ -7,17 +7,31 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace GeoViewer.Modules.Structure.ViewModels
 {
+    /// <summary>
+    /// View model of a structure item.
+    /// </summary>
     public class StructureItemViewModel : BindableBase
     {
         private readonly string name;
         private readonly string type;
         private readonly IReadOnlyList<StructureItemViewModel> children;
 
+        /// <summary>
+        /// Initializes a new instance of the StructureItemViewModel class with no children.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="type">The data type of the item.</param>
         public StructureItemViewModel(string name, string type)
             : this(name, type, Enumerable.Empty<StructureItemViewModel>())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the StructureItemViewModel class.
+        /// </summary>
+        /// <param name="name">The name of the item.</param>
+        /// <param name="type">The data type of the item.</param>
+        /// <param name="children">The children of the item.</param>
         public StructureItemViewModel(string name, string type, IEnumerable<StructureItemViewModel> children)
         {
             if (name == null)
@@ -40,6 +54,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             this.children = children.ToList().AsReadOnly();
         }
 
+        /// <summary>
+        /// Gets the name of the item.
+        /// </summary>
         public string Name
         {
             get
@@ -48,6 +65,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the data type of the item.
+        /// </summary>
         public string Type
         {
             get
@@ -56,6 +76,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the children of the item.
+        /// </summary>
         public IReadOnlyList<StructureItemViewModel> Children
         {
             get

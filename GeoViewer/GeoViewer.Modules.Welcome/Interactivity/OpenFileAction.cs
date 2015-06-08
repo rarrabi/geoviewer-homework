@@ -11,9 +11,16 @@ using Microsoft.Win32;
 
 namespace GeoViewer.Modules.Welcome.Interactivity
 {
-    // TODO OpenFileActionTest
+    /// <summary>
+    /// Displays a Microsoft.Win32.OpenFileDialog when invoked. 
+    /// </summary>
+    //// TODO OpenFileActionTest
     public class OpenFileAction : TriggerAction<FrameworkElement>
     {
+        /// <summary>
+        /// Invokes the action. 
+        /// </summary>
+        /// <param name="parameter">The parameter to the action.</param>
         protected override void Invoke(object parameter)
         {
             var e = parameter as InteractionRequestedEventArgs;
@@ -43,6 +50,11 @@ namespace GeoViewer.Modules.Welcome.Interactivity
             e.Callback();
         }
 
+        /// <summary>
+        /// Searches the logical and visual tree for a parent of the associated object.
+        /// </summary>
+        /// <typeparam name="T">The type of the parent to search for.</typeparam>
+        /// <returns>The parent of the associated object.</returns>
         private T FindParent<T>()
             where T : class
         {

@@ -16,13 +16,23 @@ using MahApps.Metro.Controls;
 
 namespace GeoViewer.Views
 {
+    /// <summary>
+    /// Interaction logic for Shell.xaml.
+    /// </summary>
     public partial class Shell : MetroWindow
     {
+        /// <summary>
+        /// Initializes a new instance of the Shell class.
+        /// </summary>
         public Shell()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the Shell class.
+        /// </summary>
+        /// <param name="viewModel">A view model.</param>
         public Shell(ViewModels.ShellViewModel viewModel)
             : this()
         {

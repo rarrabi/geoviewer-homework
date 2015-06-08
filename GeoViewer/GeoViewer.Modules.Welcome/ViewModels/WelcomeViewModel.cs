@@ -14,6 +14,9 @@ using Microsoft.Practices.Prism.Regions;
 
 namespace GeoViewer.Modules.Welcome.ViewModels
 {
+    /// <summary>
+    /// View model for WelcomeView.xaml.
+    /// </summary>
     public class WelcomeViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
         private readonly IFileService fileService;
@@ -22,6 +25,11 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         private readonly DelegateCommand<string> openRecentCommand;
         private readonly InteractionRequest<IOpenFile> openFileInteractionRequest;
 
+        /// <summary>
+        /// Initializes a new instance of the WelcomeViewModel class.
+        /// </summary>
+        /// <param name="fileService">A GeoViewer.Modules.Welcome.Services.IFileService.</param>
+        /// <param name="recentFileService">A GeoViewer.Modules.Welcome.Services.IRecentFileService.</param>
         public WelcomeViewModel(IFileService fileService, IRecentFileService recentFileService)
         {
             if (fileService == null)
@@ -42,6 +50,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             this.openFileInteractionRequest = new InteractionRequest<IOpenFile>();
         }
 
+        /// <summary>
+        /// Gets a command for opening files.
+        /// </summary>
         public ICommand OpenCommand
         {
             get
@@ -50,6 +61,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a command for opening recent files.
+        /// </summary>
         public ICommand OpenRecentCommand
         {
             get
@@ -58,6 +72,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets an interaction request for opening files.
+        /// </summary>
         public IInteractionRequest OpenFileInteractionRequest
         {
             get
@@ -66,6 +83,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets the list of recent files.
+        /// </summary>
         public IReadOnlyList<RecentFileViewModel> RecentFiles
         {
             get
@@ -74,6 +94,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             }
         }
 
+        /// <summary>
+        /// Execution logic when the OpenCommand is invoked.
+        /// </summary>
         private void OpenCommandExecute()
         {
             this.openFileInteractionRequest.Raise(
@@ -87,11 +110,19 @@ namespace GeoViewer.Modules.Welcome.ViewModels
                 });
         }
 
+        /// <summary>
+        /// Execution logic when the OpenRecentCommand is invoked.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
         private void OpenRecentCommandExecute(string fileName)
         {
             this.Open(fileName);
         }
 
+        /// <summary>
+        /// Opens a file.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
         private void Open(string fileName)
         {
             this.fileService.Open(fileName);
@@ -101,17 +132,30 @@ namespace GeoViewer.Modules.Welcome.ViewModels
 
         #region INavigationAware
 
+        /// <summary>
+        /// Called to determine if this instance can handle the navigation request.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
+        /// <returns>true if this instance accepts the navigation request; otherwise, false.</returns>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            // The View and ViewModel can handle / accepts all navigation requests.
+            // The view / view model can handle / accepts all navigation requests.
             return true;
         }
 
+        /// <summary>
+        /// Called when the implementer is being navigated away from.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             // Nothing to do.
         }
 
+        /// <summary>
+        /// Called when the implementer has been navigated to.
+        /// </summary>
+        /// <param name="navigationContext">The navigation context.</param>
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             // Nothing to do.
@@ -121,11 +165,14 @@ namespace GeoViewer.Modules.Welcome.ViewModels
 
         #region IRegionMemberLifetime
 
+        /// <summary>
+        /// Gets a value indicating whether this instance should be kept-alive upon deactivation.
+        /// </summary>
         public bool KeepAlive
         {
             get
             {
-                // The View and ViewModel should not be kept alive / should be disposed.
+                // The view / view model should not be kept alive / should be disposed.
                 return false;
             }
         }

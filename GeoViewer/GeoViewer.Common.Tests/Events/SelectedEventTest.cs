@@ -25,7 +25,7 @@ namespace GeoViewer.Common.Events
         {
             var type = typeof(SelectedEvent);
             var baseType = type.BaseType; // typeof(PubSubEvent<T>)
-            var payloadType = baseType.GetGenericArguments()[0];
+            var payloadType = baseType.GetGenericArguments()[0]; // typeof(T)
 
             Assert.AreEqual(typeof(object), payloadType);
         }

@@ -16,7 +16,6 @@ namespace GeoViewer.Modules.Properties.ViewModels
     [TestClass]
     public class PropertiesViewModelTest
     {
-
         [TestMethod]
         public void TestProperties()
         {

@@ -16,13 +16,23 @@ using GeoViewer.Modules.Attributes.ViewModels;
 
 namespace GeoViewer.Modules.Attributes.Views
 {
+    /// <summary>
+    /// Interaction logic for AttributesView.xaml.
+    /// </summary>
     public partial class AttributesView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the AttributesView class.
+        /// </summary>
         public AttributesView()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the AttributesView class.
+        /// </summary>
+        /// <param name="viewModel">A view model.</param>
         public AttributesView(AttributesViewModel viewModel)
             : this()
         {

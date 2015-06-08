@@ -8,10 +8,17 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace GeoViewer.Modules.Welcome.ViewModels
 {
+    /// <summary>
+    /// View model of a recent file.
+    /// </summary>
     public class RecentFileViewModel : BindableBase
     {
         private readonly string fileName;
 
+        /// <summary>
+        /// Initializes a new instance of the RecentFileViewModel class.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
         public RecentFileViewModel(string fileName)
         {
             if (fileName == null)
@@ -22,6 +29,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             this.fileName = fileName;
         }
 
+        /// <summary>
+        /// Gets a string containing the full path of the file.
+        /// </summary>
         public string FileName
         {
             get
@@ -30,6 +40,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             }
         }
 
+        /// <summary>
+        /// Gets a string containing the name of the file to be display on the UI.
+        /// </summary>
         public string Name
         {
             get

@@ -8,10 +8,18 @@ using System.Xml.Linq;
 
 namespace GeoViewer.Modules.Welcome.Services
 {
+    /// <summary>
+    /// Service for handling the list of recent files using an XML file as persistent storage.
+    /// </summary>
     public class XmlRecentFileService : RecentFileService
     {
         private readonly string fileName;
 
+        /// <summary>
+        /// Initializes a new instance of the XmlRecentFileService class.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the XML file.</param>
+        /// <param name="size">The size of the list of recent files.</param>
         public XmlRecentFileService(string fileName, int size)
             : base(size)
         {
@@ -23,12 +31,15 @@ namespace GeoViewer.Modules.Welcome.Services
             this.fileName = fileName;
         }
 
+        /// <summary>
+        /// Loads the list of recent files from a persistent storage (XML file).
+        /// </summary>
+        /// <returns>The list of recent files.</returns>
         protected override IReadOnlyList<string> LoadRecentFiles()
         {
-            // Validate the file name.
             if (!this.IsValid(this.fileName))
             {
-                // Return an empty list when the file is invalid.
+                // Return an empty list when the file name is invalid.
                 return new List<string>().AsReadOnly();
             }
 
@@ -38,6 +49,10 @@ namespace GeoViewer.Modules.Welcome.Services
             return recentFiles.ToList().AsReadOnly();
         }
 
+        /// <summary>
+        /// Saves the list of recent files to a persistent storage (XML file).
+        /// </summary>
+        /// <param name="recentFiles">The list of recent files.</param>
         protected override void SaveRecentFiles(IReadOnlyList<string> recentFiles)
         {
             var recentFileElements = this.RecentFilesToXml(recentFiles);
@@ -46,12 +61,22 @@ namespace GeoViewer.Modules.Welcome.Services
             document.Save(this.fileName);
         }
 
+        /// <summary>
+        /// Determines whether a file name is valid.
+        /// </summary>
+        /// <param name="fileName">A string containing the full path of the file.</param>
+        /// <returns>A value indicating whether the file name is valid.</returns>
         private bool IsValid(string fileName)
         {
             var fileInfo = new FileInfo(fileName);
             return fileInfo.Exists && fileInfo.Length > 0;
         }
 
+        /// <summary>
+        /// Deserializes the list of recent files from XML.
+        /// </summary>
+        /// <param name="recentFilesElement">The list of recent files as XML.</param>
+        /// <returns>The list of recent files.</returns>
         private IEnumerable<string> RecentFilesFromXml(XElement recentFilesElement)
         {
             foreach (var recentFileElement in recentFilesElement.Elements("RecentFile"))
@@ -61,6 +86,11 @@ namespace GeoViewer.Modules.Welcome.Services
             }
         }
 
+        /// <summary>
+        /// Serializes the list of recent files to XML.
+        /// </summary>
+        /// <param name="recentFiles">The list of recent files.</param>
+        /// <returns>The list of recent files as XML.</returns>
         private IEnumerable<XElement> RecentFilesToXml(IEnumerable<string> recentFiles)
         {
             foreach (var fileName in recentFiles)

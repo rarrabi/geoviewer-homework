@@ -27,7 +27,7 @@ namespace GeoViewer.Modules.Attributes.ViewModels
             var testName2 = "TestName2";
             var testValue2 = "TestValue2";
 
-            // TODO PropertiesViewModelTest#TestProperties
+            // TODO PropertiesViewModelTest#TestAttributes
             var testSource = (object)null;
 
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();

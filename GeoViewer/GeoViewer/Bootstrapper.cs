@@ -14,13 +14,24 @@ using Microsoft.Practices.Unity;
 
 namespace GeoViewer
 {
+    /// <summary>
+    /// Provides a bootstrapping sequence for the application.
+    /// </summary>
+    /// <see cref="GeoViewer.App"/>
     public class Bootstrapper : UnityBootstrapper
     {
+        /// <summary>
+        /// Creates the Microsoft.Practices.Prism.Logging.ILoggerFacade used by the bootstrapper.
+        /// </summary>
+        /// <returns>A new Microsoft.Practices.Prism.Logging.TraceLogger.</returns>
         protected override ILoggerFacade CreateLogger()
         {
             return new TraceLogger();
         }
 
+        /// <summary>
+        /// Configures the Microsoft.Practices.Prism.Modularity.IModuleCatalog used by Prism.
+        /// </summary>
         protected override void ConfigureModuleCatalog()
         {
             base.ConfigureModuleCatalog();
@@ -41,6 +52,9 @@ namespace GeoViewer
             this.ModuleCatalog.AddModule(new ModuleInfo() { ModuleName = geometryModule.Name, ModuleType = geometryModule.AssemblyQualifiedName });
         }
 
+        /// <summary>
+        /// Configures the Microsoft.Practices.Unity.IUnityContainer.
+        /// </summary>
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
@@ -51,11 +65,18 @@ namespace GeoViewer
             this.Container.RegisterType<ViewModels.ShellViewModel>();
         }
 
+        /// <summary>
+        /// Creates the shell or main window of the application.
+        /// </summary>
+        /// <returns>The shell of the application.</returns>
         protected override DependencyObject CreateShell()
         {
             return this.Container.Resolve<Views.Shell>();
         }
 
+        /// <summary>
+        /// Initializes the shell.
+        /// </summary>
         protected override void InitializeShell()
         {
             base.InitializeShell();
@@ -64,10 +85,14 @@ namespace GeoViewer
             Application.Current.MainWindow.Show();
         }
 
+        /// <summary>
+        /// Initializes the modules.
+        /// </summary>
         protected override void InitializeModules()
         {
             base.InitializeModules();
 
+            // Navigate the Main region to the Welcome view.
             var regionManager = this.Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(Constants.Region.Main, Constants.Navigation.Welcome);
         }

@@ -16,13 +16,23 @@ using GeoViewer.Modules.Geometry.ViewModels;
 
 namespace GeoViewer.Modules.Geometry.Views
 {
+    /// <summary>
+    /// Interaction logic for GeometryView.xaml.
+    /// </summary>
     public partial class GeometryView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the GeometryView class.
+        /// </summary>
         public GeometryView()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the GeometryView class.
+        /// </summary>
+        /// <param name="viewModel">A view model.</param>
         public GeometryView(GeometryViewModel viewModel)
             : this()
         {

@@ -10,11 +10,19 @@ using Microsoft.Practices.Unity;
 
 namespace GeoViewer.Modules.Geometry
 {
+    /// <summary>
+    /// Initialization logic for the Geometry module. 
+    /// </summary>
     public class GeometryModule : IModule
     {
         private readonly ILoggerFacade logger;
         private readonly IUnityContainer container;
 
+        /// <summary>
+        /// Initializes a new instance of the GeometryModule class.
+        /// </summary>
+        /// <param name="logger">A Microsoft.Practices.Prism.Logging.ILoggerFacade.</param>
+        /// <param name="container">A Microsoft.Practices.Unity.IUnityContainer.</param>
         public GeometryModule(ILoggerFacade logger, IUnityContainer container)
         {
             if (logger == null)
@@ -31,6 +39,9 @@ namespace GeoViewer.Modules.Geometry
             this.container = container;
         }
 
+        /// <summary>
+        /// Initializes the Geometry module.
+        /// </summary>
         public void Initialize()
         {
             this.logger.Log("Initializing GeoViewer.Modules.Geometry.GeometryModule.", Category.Debug, Priority.Low);

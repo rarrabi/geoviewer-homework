@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotSpatial.Data;
 
 namespace GeoViewer.Modules.Welcome.Services
 {
@@ -42,10 +43,11 @@ namespace GeoViewer.Modules.Welcome.Services
         }
 
         /// <summary>
-        /// Opens a file.
+        /// Opens a file as a feature set.
         /// </summary>
         /// <param name="fileName">A string containing the full path of the file.</param>
-        public void Open(string fileName)
+        /// <returns>The file as a feature set.</returns>
+        public IFeatureSet Open(string fileName)
         {
             // Convert the file name to an absolute / fully qualified file name.
             fileName = Path.GetFullPath(fileName);
@@ -54,29 +56,39 @@ namespace GeoViewer.Modules.Welcome.Services
             {
                 // Remove invalid files from the list of recent files.
                 this.recentFileService.Remove(fileName);
-                return;
+
+                throw new ArgumentException(string.Format("Invalid file name: {0}", fileName), "fileName");
             }
 
-            if (this.DoOpen(fileName))
+            try
             {
+                var featureSet = this.DoOpen(fileName);
+
                 // Add valid files to the list of recent files.
                 this.recentFileService.Add(fileName);
+
+                return featureSet;
             }
-            else
+            catch (Exception e)
             {
                 // Remove invalid files from the list of recent files.
                 this.recentFileService.Remove(fileName);
+
+                throw new ArgumentException(string.Format("Failed to open file: {0}", fileName), "fileName", e);
             }
         }
 
         /// <summary>
-        /// Opens a file.
+        /// Opens a file as a feature set.
         /// </summary>
         /// <param name="fileName">A string containing the full path of the file.</param>
-        /// <returns>A value indicating whether the file was opened successfully.</returns>
-        private bool DoOpen(string fileName)
+        /// <returns>The file as a feature set.</returns>
+        private IFeatureSet DoOpen(string fileName)
         {
-            throw new NotImplementedException();
+            var featureSet = FeatureSet.OpenFile(fileName);
+            featureSet.FillAttributes();
+            featureSet.InitializeVertices();
+            return featureSet;
         }
 
         /// <summary>

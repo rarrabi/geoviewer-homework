@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GeoViewer.Common;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Regions;
+using DSD = DotSpatial.Data;
 
 namespace GeoViewer.Modules.Properties.ViewModels
 {
@@ -39,6 +40,19 @@ namespace GeoViewer.Modules.Properties.ViewModels
         /// <returns>The object converted to a list of properties items.</returns>
         private IEnumerable<PropertiesItemViewModel> ToPropertiesItemViewModels(object source)
         {
+            var featureSet = source as DSD.IFeatureSet;
+            if (featureSet != null)
+            {
+                yield return new PropertiesItemViewModel("File Name", featureSet.Filename.GetType().Name, featureSet.Filename);
+                yield return new PropertiesItemViewModel("Name", featureSet.Name.GetType().Name, featureSet.Name);
+                yield return new PropertiesItemViewModel("Feature Type", featureSet.FeatureType.GetType().Name, featureSet.FeatureType);
+                yield return new PropertiesItemViewModel("Feature Count", featureSet.Features.Count.GetType().Name, featureSet.Features.Count);
+                yield return new PropertiesItemViewModel("Projection", featureSet.Projection.GetType().Name, featureSet.Projection.ToString());
+                yield return new PropertiesItemViewModel("Width", featureSet.Extent.Width.GetType().Name, featureSet.Extent.Width);
+                yield return new PropertiesItemViewModel("Height", featureSet.Extent.Height.GetType().Name, featureSet.Extent.Height);
+                yield break;
+            }
+
             // TODO PropertiesViewModel#ToPropertiesItemViewModels
             throw new NotImplementedException();
         }

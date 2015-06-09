@@ -66,7 +66,7 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Attributes
             {
-                public const string Source = "Source"; // type: object
+                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet
             }
 
             /// <summary>

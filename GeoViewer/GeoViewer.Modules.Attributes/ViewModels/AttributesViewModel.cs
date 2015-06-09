@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotSpatial.Data;
 using GeoViewer.Common;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Regions;
@@ -34,14 +35,13 @@ namespace GeoViewer.Modules.Attributes.ViewModels
         }
 
         /// <summary>
-        /// Converts an object to a data table.
+        /// Converts a feature set to a data view.
         /// </summary>
-        /// <param name="source">An object.</param>
-        /// <returns>The object converted to a data table.</returns>
-        private DataTable ToDataTable(object source)
+        /// <param name="featureSet">A feature set.</param>
+        /// <returns>The feature set converted to a data view.</returns>
+        private DataView ToDataView(IFeatureSet featureSet)
         {
-            // TODO AttributesViewModel#ToDataTable
-            throw new NotImplementedException();
+            return featureSet.DataTable.DefaultView;
         }
 
         #region INavigationAware
@@ -74,7 +74,13 @@ namespace GeoViewer.Modules.Attributes.ViewModels
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Attributes.Source];
 
-            this.Attributes = this.ToDataTable(source).DefaultView;
+            var featureSet = source as IFeatureSet;
+            if (featureSet == null)
+            {
+                throw new ArgumentOutOfRangeException("navigationContext", navigationContext, string.Format("Invalid navigation parameter: {0} = {1}", Constants.NavigationParameters.Attributes.Source, source));
+            }
+
+            this.Attributes = this.ToDataView(featureSet);
         }
 
         #endregion

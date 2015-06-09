@@ -10,6 +10,7 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using DSD = DotSpatial.Data;
 
 namespace GeoViewer.Modules.Properties.ViewModels
 {
@@ -54,15 +55,17 @@ namespace GeoViewer.Modules.Properties.ViewModels
 
         private NavigationContext MockNavigationContext(object source)
         {
-            var navigationService = new Mock<IRegionNavigationService>().Object;
-            var uri = new Uri("TestUri", UriKind.Relative);
-            var navigationParameters =
+            var mockRegion = new Mock<IRegion>();
+            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
+            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
+
+            return new NavigationContext(
+                mockRegionNavigationService.Object,
+                new Uri(Constants.Navigation.Properties, UriKind.Relative),
                 new NavigationParameters() 
                 { 
                     { Constants.NavigationParameters.Properties.Source, source } 
-                };
-
-            return new NavigationContext(navigationService, uri, navigationParameters);
+                });
         }
 
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)

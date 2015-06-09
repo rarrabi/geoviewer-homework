@@ -19,6 +19,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
     /// </summary>
     public class WelcomeViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        private readonly IRegionManager regionManager;
         private readonly IFileService fileService;
         private readonly IRecentFileService recentFileService;
         private readonly DelegateCommand openCommand;
@@ -28,10 +29,16 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         /// <summary>
         /// Initializes a new instance of the WelcomeViewModel class.
         /// </summary>
+        /// <param name="regionManager">A Microsoft.Practices.Prism.Regions.IRegionManager.</param>
         /// <param name="fileService">A GeoViewer.Modules.Welcome.Services.IFileService.</param>
         /// <param name="recentFileService">A GeoViewer.Modules.Welcome.Services.IRecentFileService.</param>
-        public WelcomeViewModel(IFileService fileService, IRecentFileService recentFileService)
+        public WelcomeViewModel(IRegionManager regionManager, IFileService fileService, IRecentFileService recentFileService)
         {
+            if (regionManager == null)
+            {
+                throw new ArgumentNullException("regionManager");
+            }
+
             if (fileService == null)
             {
                 throw new ArgumentNullException("fileService");
@@ -42,6 +49,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
                 throw new ArgumentNullException("recentFileService");
             }
 
+            this.regionManager = regionManager;
             this.fileService = fileService;
             this.recentFileService = recentFileService;
 
@@ -125,7 +133,44 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         /// <param name="fileName">A string containing the full path of the file.</param>
         private void Open(string fileName)
         {
-            this.fileService.Open(fileName);
+            var featureSet = this.fileService.Open(fileName);
+
+            // Navigate the Main region to the Attributes view.
+            this.regionManager.RequestNavigate(
+                Constants.Region.Main,
+                Constants.Navigation.Attributes,
+                new NavigationParameters()
+                {
+                    { Constants.NavigationParameters.Attributes.Source, featureSet }
+                });
+
+            // TODO WelcomeViewModel#Open
+            // Navigate the Main region to the Geometry view.
+            //// this.regionManager.RequestNavigate(
+            ////     Constants.Region.Main,
+            ////     Constants.Navigation.Geometry,
+            ////     new NavigationParameters()
+            ////     {
+            ////         { Constants.NavigationParameters.Geometry.Source, featureSet }
+            ////     });
+
+            // Navigate the Left region to the Structure view.
+            this.regionManager.RequestNavigate(
+                Constants.Region.Left,
+                Constants.Navigation.Structure,
+                new NavigationParameters()
+                 {
+                     { Constants.NavigationParameters.Structure.Source, featureSet }
+                 });
+
+             // Navigate the Right region to the Properties view.
+             this.regionManager.RequestNavigate(
+                 Constants.Region.Right,
+                 Constants.Navigation.Properties,
+                 new NavigationParameters()
+                 {
+                     { Constants.NavigationParameters.Properties.Source, featureSet }
+                 });
 
             this.OnPropertyChanged(() => this.RecentFiles);
         }

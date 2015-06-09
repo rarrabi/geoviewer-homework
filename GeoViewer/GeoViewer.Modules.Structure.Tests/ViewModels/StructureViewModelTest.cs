@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using DotSpatial.Data;
 using GeoViewer.Common;
 using GeoViewer.Common.Events;
+using GeoViewer.Common.Utils;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
@@ -237,15 +240,17 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
         private NavigationContext MockNavigationContext(object source)
         {
-            var navigationService = new Mock<IRegionNavigationService>().Object;
-            var uri = new Uri("TestUri", UriKind.Relative);
-            var navigationParameters =
+            var mockRegion = new Mock<IRegion>();
+            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
+            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
+
+            return new NavigationContext(
+                mockRegionNavigationService.Object,
+                new Uri(Constants.Navigation.Structure, UriKind.Relative),
                 new NavigationParameters() 
                 { 
                     { Constants.NavigationParameters.Structure.Source, source } 
-                };
-
-            return new NavigationContext(navigationService, uri, navigationParameters);
+                });
         }
 
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)

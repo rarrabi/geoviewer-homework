@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotSpatial.Data;
 
 namespace GeoViewer.Modules.Welcome.Services
 {
@@ -19,9 +20,10 @@ namespace GeoViewer.Modules.Welcome.Services
         string Filter { get; }
 
         /// <summary>
-        /// Opens a file.
+        /// Opens a file as a feature set.
         /// </summary>
         /// <param name="fileName">A string containing the full path of the file.</param>
-        void Open(string fileName);
+        /// <returns>The file as a feature set.</returns>
+        IFeatureSet Open(string fileName);
     }
 }

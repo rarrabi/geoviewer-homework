@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DotSpatial.Data;
 using GeoViewer.Common;
 using GeoViewer.Common.Events;
+using GeoViewer.Common.Utils;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Prism.Regions;
@@ -18,8 +21,8 @@ namespace GeoViewer.Modules.Structure.ViewModels
     {
         private readonly SelectedEvent selectedEvent;
 
-        private IReadOnlyDictionary<object, StructureItemViewModel> items;
-        private IReadOnlyDictionary<StructureItemViewModel, object> sources;
+        private IDictionary<object, StructureItemViewModel> items;
+        private IDictionary<StructureItemViewModel, object> sources;
 
         private StructureItemViewModel root;
         private StructureItemViewModel selected;
@@ -51,7 +54,21 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
             private set
             {
-                this.SetProperty(ref this.root, value);
+                if (this.SetProperty(ref this.root, value))
+                {
+                    this.OnPropertyChanged(() => this.Roots);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the root structure item as an IEnumerable&lt;StructureItemViewModel&gt;.
+        /// </summary>
+        public IEnumerable<StructureItemViewModel> Roots
+        {
+            get
+            {
+                return EnumerableHelper.Yield(this.root);
             }
         }
 
@@ -109,8 +126,30 @@ namespace GeoViewer.Modules.Structure.ViewModels
         /// <returns>The object converted to a structure item hierarchy.</returns>
         private StructureItemViewModel ToStructureItemViewModel(object source)
         {
+            var item = (StructureItemViewModel)null;
+
+            if (source is IFeatureSet)
+            {
+                var featureSet = (IFeatureSet)source;
+                var columnItems = featureSet.DataTable.Columns.Cast<DataColumn>().Select(this.ToStructureItemViewModel).ToList();
+                item = new StructureItemViewModel("Attributes", featureSet.DataTable.GetType().Name, columnItems);
+            }
+            else if (source is DataColumn)
+            {
+                var dataColumn = (DataColumn)source;
+                item = new StructureItemViewModel(dataColumn.ColumnName, dataColumn.DataType.Name);
+            }
+
+            if (item != null)
+            {
+                this.items[source] = item;
+                this.sources[item] = source;
+
+                return item;
+            }
+
             // TODO StructureViewModel#ToStructureItemViewModel
-            throw new NotImplementedException();
+            throw new ArgumentOutOfRangeException("source", source, "Invalid source");
         }
 
         #region INavigationAware
@@ -141,6 +180,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Structure.Source];
+
+            this.items = new Dictionary<object, StructureItemViewModel>();
+            this.sources = new Dictionary<StructureItemViewModel, object>();
 
             this.Root = this.ToStructureItemViewModel(source);
         }

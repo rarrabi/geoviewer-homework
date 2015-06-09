@@ -13,20 +13,21 @@ namespace GeoViewer.Modules.Structure.Behaviors
     /// <summary>
     /// Provides databindable selection state information for a TreeView.
     /// </summary>
+    //// TODO BindableSelectedItemBehavior
     //// TODO BindableSelectedItemBehaviorTest
     public class BindableSelectedItemBehavior : Behavior<TreeView>
     {
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(TreeViewItem), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, SelectedItemPropertyChanged));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, SelectedItemPropertyChanged));
         public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register("SelectedValue", typeof(object), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, SelectedValuePropertyChanged));
 
         /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
-        public TreeViewItem SelectedItem
+        public object SelectedItem
         {
             get
             {
-                return (TreeViewItem)this.GetValue(SelectedItemProperty);
+                return (object)this.GetValue(SelectedItemProperty);
             }
 
             set
@@ -78,7 +79,7 @@ namespace GeoViewer.Modules.Structure.Behaviors
         /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
         private static void SelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((BindableSelectedItemBehavior)d).SelectedItemChanged((TreeViewItem)e.OldValue, (TreeViewItem)e.NewValue);
+            ((BindableSelectedItemBehavior)d).SelectedItemChanged(e.OldValue, e.NewValue);
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace GeoViewer.Modules.Structure.Behaviors
         /// </summary>
         /// <param name="oldValue">The old value of the SelectedItemProperty dependency property.</param>
         /// <param name="newValue">The new value of the SelectedItemProperty dependency property.</param>
-        private void SelectedItemChanged(TreeViewItem oldValue, TreeViewItem newValue)
+        private void SelectedItemChanged(object oldValue, object newValue)
         {
             // Clear the binding from the old selected item to the selected value.
             if (oldValue != null)

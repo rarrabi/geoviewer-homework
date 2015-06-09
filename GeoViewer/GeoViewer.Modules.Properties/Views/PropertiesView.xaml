@@ -5,27 +5,12 @@
         xmlns:gp="clr-namespace:GeoViewer.Modules.Properties" xmlns:gpvm="clr-namespace:GeoViewer.Modules.Properties.ViewModels"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gpvm:PropertiesViewModel}}" mc:Ignorable="d">
     <Grid>
-        <!-- HACK ListView / GridView / GridViewColumn doesn't support star sizing. -->
-        <Grid Visibility="Hidden">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-                <!-- HACK: InvalidCastException: <ColumnDefinition Width="{DynamicResource MetroScrollBarWidth}" /> -->
-                <ColumnDefinition Width="14" />
-            </Grid.ColumnDefinitions>
-            <Grid x:Name="column1" Grid.Column="0" />
-            <Grid x:Name="column2" Grid.Column="1" />
-            <Grid x:Name="column3" Grid.Column="2" />
-        </Grid>
-        <ListView ItemsSource="{Binding Properties}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <ListView.View>
-                <GridView AllowsColumnReorder="False">
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="{Binding ActualWidth, ElementName=column1}" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Type}" Header="Type" Width="{Binding ActualWidth, ElementName=column2}" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Value}" Header="Value" Width="{Binding ActualWidth, ElementName=column3}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <DataGrid ItemsSource="{Binding Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding Type}" Header="Type" />
+                <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

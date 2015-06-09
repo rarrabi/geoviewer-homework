@@ -11,7 +11,9 @@ namespace GeoViewer.Common.Utils
     /// </summary>
     public static class EnumerableHelper
     {
+        #region Yield
         // See: http://stackoverflow.com/questions/1577822/passing-a-single-item-as-ienumerablet
+
         /// <summary>
         /// Wraps an object instance into an IEnumerable&lt;T&gt; consisting of a single item.
         /// </summary>
@@ -22,5 +24,7 @@ namespace GeoViewer.Common.Utils
         {
             yield return value;
         }
+
+        #endregion
     }
 }

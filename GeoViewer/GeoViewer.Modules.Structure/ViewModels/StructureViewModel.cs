@@ -122,9 +122,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
         /// <returns>true if this instance accepts the navigation request; otherwise, false.</returns>
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            var source = navigationContext.Parameters[Constants.NavigationParameters.Structure.Source];
-
-            return this.root == null || this.sources[this.root] == source;
+            return true;
         }
 
         /// <summary>

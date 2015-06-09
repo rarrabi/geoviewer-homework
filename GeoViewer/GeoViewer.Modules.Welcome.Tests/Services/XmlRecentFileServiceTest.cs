@@ -45,6 +45,7 @@ namespace GeoViewer.Modules.Welcome.Services
             var testDocument = new XDocument(new XElement("RecentFiles", testRecentFiles.Select(rf => new XElement("RecentFile", new XAttribute("fileName", rf))).ToArray()));
 
             testDocument.Save(testFileName);
+
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
 
             Assert.AreEqual(testRecentFiles.Count(), xmlRecentFileService.RecentFiles.Count());
@@ -70,6 +71,7 @@ namespace GeoViewer.Modules.Welcome.Services
             var testRecentFiles = new List<string>().AsReadOnly();
 
             File.Delete(testFileName);
+
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
 
             Assert.AreEqual(testRecentFiles.Count(), xmlRecentFileService.RecentFiles.Count());

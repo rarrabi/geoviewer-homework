@@ -11,7 +11,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="{DynamicResource MetroScrollBarWidth}" />
+                <!-- HACK: InvalidCastException: <ColumnDefinition Width="{DynamicResource MetroScrollBarWidth}" /> -->
+                <ColumnDefinition Width="14" />
             </Grid.ColumnDefinitions>
             <Grid x:Name="column1" Grid.Column="0" />
             <Grid x:Name="column2" Grid.Column="1" />

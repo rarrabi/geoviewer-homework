@@ -17,7 +17,7 @@
             <Grid x:Name="column2" Grid.Column="1" />
             <Grid x:Name="column3" Grid.Column="2" />
         </Grid>
-        <ListView ItemsSource="{Binding Properties}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListView ItemsSource="{Binding Properties}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Name" Width="{Binding ActualWidth, ElementName=column1}" />

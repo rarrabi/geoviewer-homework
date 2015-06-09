@@ -16,7 +16,7 @@ namespace GeoViewer.Modules.Welcome.Interactivity
         private readonly string filter;
 
         /// <summary>
-        /// Initializes a new instance of the OpenFile class.
+        /// Initializes a new instance of the OpenFile class with an empty filter string.
         /// </summary>
         public OpenFile()
             : this(string.Empty)

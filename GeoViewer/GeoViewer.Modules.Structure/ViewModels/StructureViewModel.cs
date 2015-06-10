@@ -19,13 +19,12 @@ namespace GeoViewer.Modules.Structure.ViewModels
     /// </summary>
     public class StructureViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
-        private readonly SelectedEvent selectedEvent;
+        private readonly FeatureSelectedEvent featureSelectedEvent;
 
-        private IDictionary<object, StructureItemViewModel> items;
-        private IDictionary<StructureItemViewModel, object> sources;
+        private IDictionary<IFeature, StructureItemViewModel> items;
+        private IDictionary<StructureItemViewModel, IFeature> sources;
 
         private StructureItemViewModel root;
-        private IEnumerable<StructureItemViewModel> roots;
         private StructureItemViewModel selected;
 
         /// <summary>
@@ -39,8 +38,8 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 throw new ArgumentNullException("eventAggregator");
             }
 
-            this.selectedEvent = eventAggregator.GetEvent<SelectedEvent>();
-            this.selectedEvent.Subscribe(this.OnSelectedEvent);
+            this.featureSelectedEvent = eventAggregator.GetEvent<FeatureSelectedEvent>();
+            this.featureSelectedEvent.Subscribe(this.OnFeatureSelectedEvent);
         }
 
         /// <summary>
@@ -57,7 +56,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
             {
                 if (this.SetProperty(ref this.root, value))
                 {
-                    this.Roots = EnumerableHelper.Yield(this.root);
+                    this.OnPropertyChanged(() => this.Roots);
                 }
             }
         }
@@ -69,12 +68,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             get
             {
-                return this.roots;
-            }
-
-            private set
-            {
-                this.SetProperty(ref this.roots, value);
+                return EnumerableHelper.Yield(this.root);
             }
         }
 
@@ -94,11 +88,11 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 {
                     if (this.selected != null)
                     {
-                        // Publish an object selection event when the selected item is updated to a non-null item.
-                        var source = (object)null;
+                        // Publish a feature selection event when the selected item is updated to a non-null item.
+                        var source = (IFeature)null;
                         if (this.sources.TryGetValue(this.selected, out source))
                         {
-                            this.selectedEvent.Publish(source);
+                            this.featureSelectedEvent.Publish(source);
                         }
                     }
                 }
@@ -106,56 +100,66 @@ namespace GeoViewer.Modules.Structure.ViewModels
         }
 
         /// <summary>
-        /// Execution logic when the SelectedEvent is published.
+        /// Execution logic when the FeatureSelectedEvent is published.
         /// </summary>
-        /// <param name="selected">The selected object.</param>
-        private void OnSelectedEvent(object selected)
+        /// <param name="feature">A feature.</param>
+        private void OnFeatureSelectedEvent(IFeature feature)
         {
-            if (selected == null)
+            if (feature == null)
             {
-                throw new ArgumentNullException("selected");
+                throw new ArgumentNullException("feature");
             }
 
             var item = (StructureItemViewModel)null;
-            if (this.items.TryGetValue(selected, out item))
+            if (this.items.TryGetValue(feature, out item))
             {
-                // Avoid publishing an object selection event.
+                // Avoid publishing a feature selection event.
                 this.selected = item;
                 this.OnPropertyChanged(() => this.Selected);
             }
         }
 
         /// <summary>
-        /// Converts an object to a structure item hierarchy.
+        /// Converts a feature set to a structure item hierarchy.
         /// </summary>
-        /// <param name="source">An object.</param>
-        /// <returns>The object converted to a structure item hierarchy.</returns>
-        private StructureItemViewModel ToStructureItemViewModel(object source)
+        /// <param name="featureSet">A feature set.</param>
+        /// <returns>The feature set converted to a structure item hierarchy.</returns>
+        private StructureItemViewModel ToStructureItemViewModel(IFeatureSet featureSet)
         {
-            var item = (StructureItemViewModel)null;
+            var columnItems = featureSet.DataTable.Columns.Cast<DataColumn>().Select(this.ToStructureItemViewModel).ToList();
+            var attributesItem = new StructureItemViewModel("Attributes", featureSet.DataTable.GetType().Name, columnItems);
 
-            if (source is IFeatureSet)
-            {
-                var featureSet = (IFeatureSet)source;
-                var columnItems = featureSet.DataTable.Columns.Cast<DataColumn>().Select(this.ToStructureItemViewModel).ToList();
-                item = new StructureItemViewModel("Attributes", featureSet.DataTable.GetType().Name, columnItems);
-            }
-            else if (source is DataColumn)
-            {
-                var dataColumn = (DataColumn)source;
-                item = new StructureItemViewModel(dataColumn.ColumnName, dataColumn.DataType.Name);
-            }
+            var featureItems = featureSet.Features.Select(this.ToStructureItemViewModel).ToList();
+            var featuresItem = new StructureItemViewModel("Features", string.Format("[{0}]", featureSet.FeatureType), featureItems);
 
-            if (item != null)
-            {
-                this.items[source] = item;
-                this.sources[item] = source;
+            var item = new StructureItemViewModel(featureSet.Name, featureSet.GetType().Name, new List<StructureItemViewModel>() { attributesItem, featuresItem });
 
-                return item;
-            }
+            return item;
+        }
 
-            // TODO StructureViewModel#ToStructureItemViewModel
-            throw new ArgumentOutOfRangeException("source", source, "Invalid source");
+        /// <summary>
+        /// Converts a data column to a structure item.
+        /// </summary>
+        /// <param name="dataColumn">A data column.</param>
+        /// <returns>The data column converted to a structure item.</returns>
+        private StructureItemViewModel ToStructureItemViewModel(DataColumn dataColumn)
+        {
+            return new StructureItemViewModel(dataColumn.ColumnName, dataColumn.DataType.Name);
+        }
+
+        /// <summary>
+        /// Converts a feature to a structure item.
+        /// </summary>
+        /// <param name="feature">A feature.</param>
+        /// <returns>The feature converted to a structure item.</returns>
+        private StructureItemViewModel ToStructureItemViewModel(IFeature feature)
+        {
+            var item = new StructureItemViewModel(feature.Fid.ToString(), feature.FeatureType.ToString());
+
+            this.items[feature] = item;
+            this.sources[item] = feature;
+
+            return item;
         }
 
         #region INavigationAware
@@ -187,10 +191,17 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Structure.Source];
 
-            this.items = new Dictionary<object, StructureItemViewModel>();
-            this.sources = new Dictionary<StructureItemViewModel, object>();
-
-            this.Root = this.ToStructureItemViewModel(source);
+            if (source is IFeatureSet)
+            {
+                var featureSet = (IFeatureSet)source;
+                this.items = new Dictionary<IFeature, StructureItemViewModel>();
+                this.sources = new Dictionary<StructureItemViewModel, IFeature>();
+                this.Root = this.ToStructureItemViewModel(featureSet);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException("navigationContext", navigationContext, string.Format("Invalid navigation parameter: {0} = {1}", Constants.NavigationParameters.Structure.Source, source));
+            }
         }
 
         #endregion

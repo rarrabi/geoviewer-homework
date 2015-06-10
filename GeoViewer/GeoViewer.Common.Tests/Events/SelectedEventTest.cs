@@ -14,8 +14,8 @@ namespace GeoViewer.Common.Events
         [TestMethod]
         public void TestBaseType()
         {
-            var type = typeof(SelectedEvent);
-            var baseType = type.BaseType; // typeof(PubSubEvent<T>)
+            var type = typeof(SelectedEvent<>);
+            var baseType = type.BaseType; // typeof(PubSubEvent<>)
 
             Assert.AreEqual(typeof(PubSubEvent<>), baseType.GetGenericTypeDefinition());
         }
@@ -23,9 +23,9 @@ namespace GeoViewer.Common.Events
         [TestMethod]
         public void TestPayloadType()
         {
-            var type = typeof(SelectedEvent);
-            var baseType = type.BaseType; // typeof(PubSubEvent<T>)
-            var payloadType = baseType.GetGenericArguments()[0]; // typeof(T)
+            var type = typeof(SelectedEvent<object>);
+            var baseType = type.BaseType; // typeof(PubSubEvent<object>)
+            var payloadType = baseType.GetGenericArguments()[0]; // typeof(object)
 
             Assert.AreEqual(typeof(object), payloadType);
         }

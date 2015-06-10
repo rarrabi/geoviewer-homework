@@ -10,7 +10,8 @@ namespace GeoViewer.Common.Events
     /// <summary>
     /// Defines a class that manages publication and subscription to object selection events.  
     /// </summary>
-    public class SelectedEvent : PubSubEvent<object>
+    /// <typeparam name="T">The type of the payload.</typeparam>
+    public abstract class SelectedEvent<T> : PubSubEvent<T>
     {
         // This should be empty.
     }

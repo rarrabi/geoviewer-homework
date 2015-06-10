@@ -24,14 +24,17 @@ namespace GeoViewer.Modules.Attributes.ViewModels
             var testName0 = "TestName0";
             var testName1 = "TestName1";
             var testName2 = "TestName2";
+            var testType0 = typeof(string);
+            var testType1 = typeof(string);
+            var testType2 = typeof(string);
             var testValue0 = "TestValue0";
             var testValue1 = "TestValue1";
             var testValue2 = "TestValue2";
 
             var testSource = new FeatureSet(DotSpatial.Topology.FeatureType.Point);
-            testSource.DataTable.Columns.Add(new DataColumn(testName0, typeof(string)));
-            testSource.DataTable.Columns.Add(new DataColumn(testName1, typeof(string)));
-            testSource.DataTable.Columns.Add(new DataColumn(testName2, typeof(string)));
+            testSource.DataTable.Columns.Add(new DataColumn(testName0, testType0));
+            testSource.DataTable.Columns.Add(new DataColumn(testName1, testType1));
+            testSource.DataTable.Columns.Add(new DataColumn(testName2, testType2));
             var testFeature = testSource.AddFeature(new DotSpatial.Topology.Point());
             testFeature.DataRow.BeginEdit();
             testFeature.DataRow[testName0] = testValue0;
@@ -49,6 +52,9 @@ namespace GeoViewer.Modules.Attributes.ViewModels
             Assert.AreEqual(testName0, attributesViewModel.Attributes.Table.Columns[0].ColumnName);
             Assert.AreEqual(testName1, attributesViewModel.Attributes.Table.Columns[1].ColumnName);
             Assert.AreEqual(testName2, attributesViewModel.Attributes.Table.Columns[2].ColumnName);
+            Assert.AreEqual(testType0, attributesViewModel.Attributes.Table.Columns[0].DataType);
+            Assert.AreEqual(testType1, attributesViewModel.Attributes.Table.Columns[1].DataType);
+            Assert.AreEqual(testType2, attributesViewModel.Attributes.Table.Columns[2].DataType);
             Assert.AreEqual(testValue0, attributesViewModel.Attributes[0][0]);
             Assert.AreEqual(testValue1, attributesViewModel.Attributes[0][1]);
             Assert.AreEqual(testValue2, attributesViewModel.Attributes[0][2]);

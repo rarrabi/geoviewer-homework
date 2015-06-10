@@ -74,13 +74,15 @@ namespace GeoViewer.Modules.Attributes.ViewModels
         {
             var source = navigationContext.Parameters[Constants.NavigationParameters.Attributes.Source];
 
-            var featureSet = source as IFeatureSet;
-            if (featureSet == null)
+            if (source is IFeatureSet)
+            {
+                var featureSet = (IFeatureSet)source;
+                this.Attributes = this.ToDataView(featureSet);
+            }
+            else
             {
                 throw new ArgumentOutOfRangeException("navigationContext", navigationContext, string.Format("Invalid navigation parameter: {0} = {1}", Constants.NavigationParameters.Attributes.Source, source));
             }
-
-            this.Attributes = this.ToDataView(featureSet);
         }
 
         #endregion

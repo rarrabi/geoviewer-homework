@@ -50,7 +50,7 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Properties
             {
-                public const string Source = "Source"; // type: object
+                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet or DotSpatial.Data.IFeature
             }
 
             /// <summary>
@@ -58,7 +58,7 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Structure
             {
-                public const string Source = "Source"; // type: object
+                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet
             }
 
             /// <summary>

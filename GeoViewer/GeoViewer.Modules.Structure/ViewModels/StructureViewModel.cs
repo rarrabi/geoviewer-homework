@@ -25,6 +25,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
         private IDictionary<StructureItemViewModel, object> sources;
 
         private StructureItemViewModel root;
+        private IEnumerable<StructureItemViewModel> roots;
         private StructureItemViewModel selected;
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
             {
                 if (this.SetProperty(ref this.root, value))
                 {
-                    this.OnPropertyChanged(() => this.Roots);
+                    this.Roots = EnumerableHelper.Yield(this.root);
                 }
             }
         }
@@ -68,7 +69,12 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             get
             {
-                return EnumerableHelper.Yield(this.root);
+                return this.roots;
+            }
+
+            private set
+            {
+                this.SetProperty(ref this.roots, value);
             }
         }
 

@@ -163,11 +163,11 @@ namespace GeoViewer.Modules.Welcome.ViewModels
                      { Constants.NavigationParameters.Structure.Source, featureSet }
                  });
 
-             // Navigate the Right region to the Properties view.
-             this.regionManager.RequestNavigate(
-                 Constants.Region.Right,
-                 Constants.Navigation.Properties,
-                 new NavigationParameters()
+            // Navigate the Right region to the Properties view.
+            this.regionManager.RequestNavigate(
+                Constants.Region.Right,
+                Constants.Navigation.Properties,
+                new NavigationParameters()
                  {
                      { Constants.NavigationParameters.Properties.Source, featureSet }
                  });

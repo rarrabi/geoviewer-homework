@@ -48,7 +48,6 @@ namespace GeoViewer.Modules.Welcome.Services
 
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
 
-            Assert.AreEqual(testRecentFiles.Count(), xmlRecentFileService.RecentFiles.Count());
             Assert.IsTrue(Enumerable.SequenceEqual(testRecentFiles, xmlRecentFileService.RecentFiles));
         }
 
@@ -60,7 +59,6 @@ namespace GeoViewer.Modules.Welcome.Services
 
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
 
-            Assert.AreEqual(testRecentFiles.Count(), xmlRecentFileService.RecentFiles.Count());
             Assert.IsTrue(Enumerable.SequenceEqual(testRecentFiles, xmlRecentFileService.RecentFiles));
         }
 
@@ -74,7 +72,6 @@ namespace GeoViewer.Modules.Welcome.Services
 
             var xmlRecentFileService = new XmlRecentFileService(testFileName, byte.MaxValue);
 
-            Assert.AreEqual(testRecentFiles.Count(), xmlRecentFileService.RecentFiles.Count());
             Assert.IsTrue(Enumerable.SequenceEqual(testRecentFiles, xmlRecentFileService.RecentFiles));
         }
 
@@ -93,7 +90,6 @@ namespace GeoViewer.Modules.Welcome.Services
 
             var document = XDocument.Load(testFileName);
 
-            Assert.AreEqual(testRecentFiles.Count(), document.Root.Elements("RecentFile").Count());
             Assert.IsTrue(XNode.DeepEquals(testDocument, document));
         }
     }

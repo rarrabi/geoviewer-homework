@@ -67,8 +67,8 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             var mockRegionManager = new Mock<IRegionManager>();
             mockRegionManager.Setup(m => m.Regions).Returns(mockRegionCollection.Object);
             var mockFileService = new Mock<IFileService>();
-            mockFileService.Setup(m => m.Open(testFileName)).Returns(testFeatureSet);
             mockFileService.Setup(m => m.Filter).Returns("TestFilter");
+            mockFileService.Setup(m => m.Open(testFileName)).Returns(testFeatureSet);
             var mockRecentFileService = new Mock<IRecentFileService>();
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
@@ -87,11 +87,12 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             welcomeViewModel.OpenCommand.Execute(null);
 
             mockFileService.Verify(m => m.Open(testFileName));
-            mockMainRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
+            mockRegionManager.Verify(m => m.Regions);
+            mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
             // TODO WelcomeViewModelTest#TestOpenCommand
-            //// mockMainRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
-            mockLeftRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
-            mockRightRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
+            //// mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
+            mockLeftRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
             mockPropertyChangedEventHandler.Verify(m => m(welcomeViewModel, ItIsProperty(() => welcomeViewModel.RecentFiles)));
         }
 
@@ -150,11 +151,12 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             welcomeViewModel.OpenRecentCommand.Execute(testRecentFile);
 
             mockFileService.Verify(m => m.Open(testRecentFile));
-            mockMainRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
+            mockRegionManager.Verify(m => m.Regions);
+            mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
             // TODO WelcomeViewModelTest#TestOpenRecentCommand
-            //// mockMainRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
-            mockLeftRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
-            mockRightRegion.Verify(m => m.RequestNavigate(It.Is<Uri>(u => u.ToString() == Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
+            //// mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
+            mockLeftRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
             mockPropertyChangedEventHandler.Verify(m => m(welcomeViewModel, ItIsProperty(() => welcomeViewModel.RecentFiles)));
         }
 
@@ -170,13 +172,17 @@ namespace GeoViewer.Modules.Welcome.ViewModels
 
             var welcomeViewModel = new WelcomeViewModel(mockRegionManager.Object, mockFileService.Object, mockRecentFileService.Object);
 
-            Assert.AreEqual(testRecentFiles.Count(), welcomeViewModel.RecentFiles.Count());
             Assert.IsTrue(Enumerable.SequenceEqual(testRecentFiles, welcomeViewModel.RecentFiles.Select(rfvm => rfvm.FileName)));
         }
 
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)
         {
             return It.Is<PropertyChangedEventArgs>(e => e.PropertyName == PropertySupport.ExtractPropertyName(propertyExpression));
+        }
+
+        private static Uri ItIsUri(string uri)
+        {
+            return It.Is<Uri>(u => u.ToString() == uri);
         }
     }
 }

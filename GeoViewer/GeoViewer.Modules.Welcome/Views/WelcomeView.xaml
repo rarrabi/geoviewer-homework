@@ -11,9 +11,9 @@
     </i:Interaction.Triggers>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Start" />
+            <TextBlock Text="Welcome" />
             <Button Command="{Binding OpenCommand}" Content="Open..." HorizontalAlignment="Left" />
-            <TextBlock Text="Recent" />
+            <TextBlock Text="Recent Files" />
             <ItemsControl ItemsSource="{Binding RecentFiles}" HorizontalAlignment="Left">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>

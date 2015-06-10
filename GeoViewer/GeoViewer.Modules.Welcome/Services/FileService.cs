@@ -87,7 +87,6 @@ namespace GeoViewer.Modules.Welcome.Services
         {
             var featureSet = FeatureSet.OpenFile(fileName);
             featureSet.FillAttributes();
-            featureSet.InitializeVertices();
             return featureSet;
         }
 

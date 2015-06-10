@@ -5,9 +5,11 @@
         xmlns:ga="clr-namespace:GeoViewer.Modules.Attributes" xmlns:gavm="clr-namespace:GeoViewer.Modules.Attributes.ViewModels"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gavm:AttributesViewModel}}" mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Attributes" />
-            <DataGrid ItemsSource="{Binding Attributes}" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Attributes" />
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Attributes}" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" />
     </Grid>
 </UserControl>

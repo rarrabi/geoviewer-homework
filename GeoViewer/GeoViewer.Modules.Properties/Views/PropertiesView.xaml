@@ -5,15 +5,17 @@
         xmlns:gp="clr-namespace:GeoViewer.Modules.Properties" xmlns:gpvm="clr-namespace:GeoViewer.Modules.Properties.ViewModels"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gpvm:PropertiesViewModel}}" mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Properties" />
-            <DataGrid ItemsSource="{Binding Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                    <DataGridTextColumn Binding="{Binding Type}" Header="Type" />
-                    <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Properties" />
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Properties}" AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                <DataGridTextColumn Binding="{Binding Type}" Header="Type" />
+                <DataGridTextColumn Binding="{Binding Value}" Header="Value" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

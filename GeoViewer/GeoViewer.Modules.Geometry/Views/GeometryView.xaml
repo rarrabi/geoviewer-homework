@@ -5,8 +5,10 @@
         xmlns:gg="clr-namespace:GeoViewer.Modules.Geometry" xmlns:ggvm="clr-namespace:GeoViewer.Modules.Geometry.ViewModels"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type ggvm:GeometryViewModel}}" mc:Ignorable="d">
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Geometry" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Geometry" />
     </Grid>
 </UserControl>

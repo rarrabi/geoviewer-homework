@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Attributes" />
+        <TextBlock Grid.Row="0" Text="Attributes" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
         <DataGrid Grid.Row="1" ItemsSource="{Binding Attributes}" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" />
     </Grid>
 </UserControl>

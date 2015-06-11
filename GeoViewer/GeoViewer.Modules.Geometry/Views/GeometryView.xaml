@@ -9,6 +9,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Geometry" />
+        <TextBlock Grid.Row="0" Text="Geometry" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
     </Grid>
 </UserControl>

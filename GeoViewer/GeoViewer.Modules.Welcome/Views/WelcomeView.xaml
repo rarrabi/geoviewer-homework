@@ -16,9 +16,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Welcome" />
+        <TextBlock Grid.Row="0" Text="Welcome" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
         <Button Grid.Row="1" Command="{Binding OpenCommand}" Content="Open..." HorizontalAlignment="Left" />
-        <TextBlock Grid.Row="2" Text="Recent Files" />
+        <TextBlock Grid.Row="2" Text="Recent Files" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource FlyoutHeaderFontSize}" />
         <ItemsControl Grid.Row="3" ItemsSource="{Binding RecentFiles}" HorizontalAlignment="Left">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

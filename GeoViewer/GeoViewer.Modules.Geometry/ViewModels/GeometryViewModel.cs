@@ -7,7 +7,11 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace GeoViewer.Modules.Geometry.ViewModels
 {
+    /// <summary>
+    /// View model for GeometryView.xaml.
+    /// </summary>
     public class GeometryViewModel : BindableBase
     {
+        // TODO GeometryViewModel
     }
 }

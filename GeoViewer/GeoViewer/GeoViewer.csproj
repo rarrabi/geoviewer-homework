@@ -182,7 +182,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>

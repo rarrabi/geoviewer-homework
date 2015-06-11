@@ -10,11 +10,19 @@ using Microsoft.Practices.Unity;
 
 namespace GeoViewer.Modules.Welcome
 {
+    /// <summary>
+    /// Initialization logic for the Welcome module. 
+    /// </summary>
     public class WelcomeModule : IModule
     {
         private readonly ILoggerFacade logger;
         private readonly IUnityContainer container;
 
+        /// <summary>
+        /// Initializes a new instance of the WelcomeModule class.
+        /// </summary>
+        /// <param name="logger">A Microsoft.Practices.Prism.Logging.ILoggerFacade.</param>
+        /// <param name="container">A Microsoft.Practices.Unity.IUnityContainer.</param>
         public WelcomeModule(ILoggerFacade logger, IUnityContainer container)
         {
             if (logger == null)
@@ -31,9 +39,15 @@ namespace GeoViewer.Modules.Welcome
             this.container = container;
         }
 
+        /// <summary>
+        /// Initializes the Welcome module.
+        /// </summary>
         public void Initialize()
         {
             this.logger.Log("Initializing GeoViewer.Modules.Welcome.WelcomeModule.", Category.Debug, Priority.Low);
+
+            this.container.RegisterType<Services.IFileService, Services.FileService>();
+            this.container.RegisterType<Services.IRecentFileService, Services.XmlRecentFileService>(new InjectionConstructor("GeoViewer.RecentFiles.xml", 10));
 
             this.container.RegisterType<object, Views.WelcomeView>(Constants.Navigation.Welcome);
             this.container.RegisterType<ViewModels.WelcomeViewModel>();

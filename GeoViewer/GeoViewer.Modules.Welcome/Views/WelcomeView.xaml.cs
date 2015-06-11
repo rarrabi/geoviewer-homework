@@ -16,13 +16,23 @@ using GeoViewer.Modules.Welcome.ViewModels;
 
 namespace GeoViewer.Modules.Welcome.Views
 {
+    /// <summary>
+    /// Interaction logic for WelcomeView.xaml.
+    /// </summary>
     public partial class WelcomeView : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the WelcomeView class.
+        /// </summary>
         public WelcomeView()
         {
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the WelcomeView class.
+        /// </summary>
+        /// <param name="viewModel">A view model.</param>
         public WelcomeView(WelcomeViewModel viewModel)
             : this()
         {

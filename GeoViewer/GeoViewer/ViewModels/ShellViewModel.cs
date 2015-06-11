@@ -7,7 +7,11 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace GeoViewer.ViewModels
 {
+    /// <summary>
+    /// View model for Shell.xaml.
+    /// </summary>
     public class ShellViewModel : BindableBase
     {
+        // This should be empty.
     }
 }

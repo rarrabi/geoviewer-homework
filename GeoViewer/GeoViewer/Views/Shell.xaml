@@ -10,11 +10,13 @@
     <Grid Margin="12,12,12,12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="12" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="12" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ContentControl Grid.Column="0" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Left}" />
-        <ContentControl Grid.Column="1" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Main}" />
-        <ContentControl Grid.Column="2" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Right}" />
+        <ContentControl Grid.Column="2" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Main}" />
+        <ContentControl Grid.Column="4" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Right}" />
     </Grid>
 </mmc:MetroWindow>

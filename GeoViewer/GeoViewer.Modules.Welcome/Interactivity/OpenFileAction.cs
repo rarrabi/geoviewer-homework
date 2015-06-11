@@ -12,7 +12,7 @@ using Microsoft.Win32;
 namespace GeoViewer.Modules.Welcome.Interactivity
 {
     /// <summary>
-    /// Displays a Microsoft.Win32.OpenFileDialog when invoked. 
+    /// Displays a Microsoft.Win32.OpenFileDialog for browsing / opening files when invoked. 
     /// </summary>
     //// TODO OpenFileActionTest
     public class OpenFileAction : TriggerAction<FrameworkElement>

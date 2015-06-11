@@ -89,7 +89,6 @@ namespace GeoViewer.Modules.Welcome.Services
             }
 
             var document = XDocument.Load(testFileName);
-
             Assert.IsTrue(XNode.DeepEquals(testDocument, document));
         }
     }

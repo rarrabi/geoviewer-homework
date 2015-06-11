@@ -86,15 +86,15 @@ namespace GeoViewer.Modules.Welcome.Services
         private IFeatureSet DoOpen(string fileName)
         {
             var featureSet = FeatureSet.OpenFile(fileName);
-            featureSet.FillAttributes();
+            featureSet.FillAttributes(); // Read all the attributes from the file.
             return featureSet;
         }
 
         /// <summary>
-        /// Determines whether a file name is valid.
+        /// Determines whether a file is valid for opening.
         /// </summary>
         /// <param name="fileName">A string containing the full path of the file.</param>
-        /// <returns>A value indicating whether the file name is valid.</returns>
+        /// <returns>A value indicating whether the file is valid for opening.</returns>
         private bool IsValid(string fileName)
         {
             var fileInfo = new FileInfo(fileName);

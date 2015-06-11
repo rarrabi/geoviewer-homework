@@ -17,7 +17,7 @@ namespace GeoViewer.Common.Utils
         /// <summary>
         /// Wraps an object instance into an IEnumerable&lt;T&gt; consisting of a single item.
         /// </summary>
-        /// <typeparam name="T">Type of the object.</typeparam>
+        /// <typeparam name="T">The type of the object.</typeparam>
         /// <param name="value">The instance that will be wrapped.</param>
         /// <returns>An IEnumerable&lt;T&gt; consisting of a single item.</returns>
         public static IEnumerable<T> Yield<T>(T value)

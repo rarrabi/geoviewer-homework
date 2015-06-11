@@ -22,7 +22,8 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         [TestMethod]
         public void TestFileName()
         {
-            var testFileName = @"C:\TestDirectory\TestFileName.testextension";
+            var testName = "TestName";
+            var testFileName = @"C:\TestDirectory\" + testName + ".testextension";
 
             var recentFileViewModel = new RecentFileViewModel(testFileName);
 

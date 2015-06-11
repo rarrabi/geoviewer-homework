@@ -58,20 +58,20 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
             Assert.IsNotNull(structureViewModel.Root);
             Assert.AreEqual(structureViewModel.Root, structureViewModel.Roots.Single());
-            Assert.AreEqual(testSource.Name, structureViewModel.Root.Name);
-            Assert.AreEqual(testSource.GetType().Name, structureViewModel.Root.Type);
+            Assert.IsTrue(IsStructureItemViewModel(testSource.Name, testSource.GetType().Name)(structureViewModel.Root));
             Assert.IsTrue(structureViewModel.Root.Children.Any(
-                sivm => sivm.Name == "Attributes" && sivm.Type == testSource.DataTable.GetType().Name &&
-                        sivm.Children.Any(csivm => csivm.Name == testName0 && csivm.Type == testType0.Name) &&
-                        sivm.Children.Any(csivm => csivm.Name == testName1 && csivm.Type == testType1.Name) &&
-                        sivm.Children.Any(csivm => csivm.Name == testName1 && csivm.Type == testType2.Name)));
+                sivm => IsStructureItemViewModel("Attributes", testSource.DataTable.GetType().Name)(sivm) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testName0, testType0.Name)) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testName1, testType1.Name)) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testName2, testType2.Name))));
             Assert.IsTrue(structureViewModel.Root.Children.Any(
-                sivm => sivm.Name == "Features" && sivm.Type == string.Format("[{0}]", testSource.FeatureType) &&
-                        sivm.Children.Any(csivm => csivm.Name == testFeature0.Fid.ToString() && csivm.Type == testFeature0.FeatureType.ToString()) &&
-                        sivm.Children.Any(csivm => csivm.Name == testFeature1.Fid.ToString() && csivm.Type == testFeature1.FeatureType.ToString()) &&
-                        sivm.Children.Any(csivm => csivm.Name == testFeature2.Fid.ToString() && csivm.Type == testFeature2.FeatureType.ToString())));
+                sivm => IsStructureItemViewModel("Features", string.Format("[{0}]", testSource.FeatureType))(sivm) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testFeature0.Fid.ToString(), testFeature0.FeatureType.ToString())) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testFeature1.Fid.ToString(), testFeature1.FeatureType.ToString())) &&
+                        sivm.Children.Any(IsStructureItemViewModel(testFeature2.Fid.ToString(), testFeature2.FeatureType.ToString()))));
 
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Root)));
+            mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Roots)));
         }
 
         [TestMethod]
@@ -115,10 +115,10 @@ namespace GeoViewer.Modules.Structure.ViewModels
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
-            structureViewModel.Selected = structureViewModel.Root.Children.Where(sivm => sivm.Name == "Features").Single().Children.First();
-            structureViewModel.Selected = structureViewModel.Root.Children.Where(sivm => sivm.Name == "Features").Single().Children.Last();
+            structureViewModel.Selected = structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.First();
+            structureViewModel.Selected = structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.Last();
 
-            // Moq doesn't support sequences / verifying the invocation order. (See: Java - Mockito - InOrder).
+            // Moq doesn't support sequences / verifying the invocation order. See: Java - Mockito - InOrder
             mockFeatureSelectedEvent.Verify(m => m.Publish(testFeature0));
             mockFeatureSelectedEvent.Verify(m => m.Publish(testFeature2));
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Exactly(2));
@@ -171,9 +171,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
             mockFeatureSelectedEventCallback(testFeature0);
-            Assert.AreEqual(structureViewModel.Root.Children.Where(sivm => sivm.Name == "Features").Single().Children.First(), structureViewModel.Selected);
+            Assert.AreEqual(structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.First(), structureViewModel.Selected);
             mockFeatureSelectedEventCallback(testFeature2);
-            Assert.AreEqual(structureViewModel.Root.Children.Where(sivm => sivm.Name == "Features").Single().Children.Last(), structureViewModel.Selected);
+            Assert.AreEqual(structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.Last(), structureViewModel.Selected);
 
             mockFeatureSelectedEvent.Verify(m => m.Publish(It.IsAny<IFeature>()), Times.Never);
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Exactly(2));
@@ -222,6 +222,16 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 { 
                     { Constants.NavigationParameters.Structure.Source, source } 
                 });
+        }
+
+        private static Func<StructureItemViewModel, bool> IsStructureItemViewModel(string name)
+        {
+            return sivm => sivm.Name == name;
+        }
+
+        private static Func<StructureItemViewModel, bool> IsStructureItemViewModel(string name, string type)
+        {
+            return sivm => sivm.Name == name && sivm.Type == type;
         }
 
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)

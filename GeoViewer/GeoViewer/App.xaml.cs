@@ -21,7 +21,7 @@ namespace GeoViewer
         {
             base.OnStartup(e);
 
-            // The Bootstrapper will handle initialization.
+            // The Bootstrapper will handle initialization (modules, main window, etc.).
             Bootstrapper bootstrapper = new Bootstrapper();
             bootstrapper.Run();
         }

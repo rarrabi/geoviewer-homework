@@ -17,7 +17,6 @@ namespace GeoViewer.Common.Utils
 
             var enumerable = EnumerableHelper.Yield(testValue);
 
-            Assert.AreEqual(1, enumerable.Count());
             Assert.AreEqual(testValue, enumerable.Single());
         }
 
@@ -28,7 +27,6 @@ namespace GeoViewer.Common.Utils
 
             var enumerable = EnumerableHelper.Yield(testValue);
 
-            Assert.AreEqual(1, enumerable.Count());
             Assert.AreEqual(testValue, enumerable.Single());
         }
     }

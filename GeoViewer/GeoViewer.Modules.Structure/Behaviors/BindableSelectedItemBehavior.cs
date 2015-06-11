@@ -13,6 +13,9 @@ namespace GeoViewer.Modules.Structure.Behaviors
     /// <summary>
     /// Provides databindable selection state information for a TreeView.
     /// </summary>
+    /// <remarks>
+    /// The TreeView.SelectedItemProperty and TreeView.SelectedValueProperty dependency properties are read-only.
+    /// </remarks>
     //// TODO BindableSelectedItemBehavior
     //// TODO BindableSelectedItemBehaviorTest
     public class BindableSelectedItemBehavior : Behavior<TreeView>

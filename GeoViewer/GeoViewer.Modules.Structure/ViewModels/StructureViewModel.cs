@@ -64,6 +64,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
         /// <summary>
         /// Gets the root structure item as an IEnumerable&lt;StructureItemViewModel&gt;.
         /// </summary>
+        /// <remarks>
+        /// Used for data binding to an ItemsControl.
+        /// </remarks>
         public IEnumerable<StructureItemViewModel> Roots
         {
             get
@@ -113,7 +116,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var item = (StructureItemViewModel)null;
             if (this.items.TryGetValue(feature, out item))
             {
-                // Avoid publishing a feature selection event.
+                // Avoid publishing a feature selection event recursively.
                 this.selected = item;
                 this.OnPropertyChanged(() => this.Selected);
             }

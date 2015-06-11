@@ -81,7 +81,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         }
 
         /// <summary>
-        /// Gets an interaction request for opening files.
+        /// Gets an interaction request for browsing / opening files.
         /// </summary>
         public IInteractionRequest OpenFileInteractionRequest
         {
@@ -98,7 +98,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         {
             get
             {
-                return this.recentFileService.RecentFiles.Select(f => new RecentFileViewModel(f)).ToList().AsReadOnly();
+                return this.ToRecentFileViewModels(this.recentFileService.RecentFiles).ToList().AsReadOnly();
             }
         }
 
@@ -134,6 +134,8 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         private void Open(string fileName)
         {
             var featureSet = this.fileService.Open(fileName);
+
+            this.OnPropertyChanged(() => this.RecentFiles);
 
             // Navigate the Main region to the Attributes view.
             this.regionManager.RequestNavigate(
@@ -171,8 +173,11 @@ namespace GeoViewer.Modules.Welcome.ViewModels
                  {
                      { Constants.NavigationParameters.Properties.Source, featureSet }
                  });
+        }
 
-            this.OnPropertyChanged(() => this.RecentFiles);
+        private IEnumerable<RecentFileViewModel> ToRecentFileViewModels(IEnumerable<string> recentFiles)
+        {
+            return recentFiles.Select(f => new RecentFileViewModel(f));
         }
 
         #region INavigationAware

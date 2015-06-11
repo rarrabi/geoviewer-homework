@@ -10,7 +10,7 @@ namespace GeoViewer.Modules.Welcome.Interactivity
     /// <summary>
     /// Represents an interaction request used for browsing / opening files.
     /// </summary>
-    /// <see cref="GeoViewer.Modules.Welcome.Interactivity.IOpenFile"/>
+    /// <see cref="GeoViewer.Modules.Welcome.Interactivity.IOpenFile" />
     public class OpenFile : Confirmation, IOpenFile
     {
         private readonly string filter;

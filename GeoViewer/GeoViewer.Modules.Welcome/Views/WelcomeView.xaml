@@ -28,7 +28,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Command="{Binding DataContext.OpenRecentCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding FileName}"
-                                Content="{Binding Name}"/>
+                                Content="{Binding Name}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

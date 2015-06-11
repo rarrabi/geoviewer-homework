@@ -117,8 +117,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
             if (this.items.TryGetValue(feature, out item))
             {
                 // Avoid publishing a feature selection event recursively.
-                this.selected = item;
-                this.OnPropertyChanged(() => this.Selected);
+                this.SetProperty(ref this.selected, item, PropertySupport.ExtractPropertyName(() => this.Selected));
             }
         }
 

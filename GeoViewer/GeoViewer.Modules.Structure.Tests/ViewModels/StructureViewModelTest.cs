@@ -23,9 +23,20 @@ namespace GeoViewer.Modules.Structure.ViewModels
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
+        public void TestNullRegionManager()
+        {
+            var mockEventAggregator = new Mock<IEventAggregator>();
+
+            var structureViewModel = new StructureViewModel(null, mockEventAggregator.Object);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void TestNullEventAggregator()
         {
-            var structureViewModel = new StructureViewModel(null);
+            var mockRegionManager = new Mock<IRegionManager>();
+
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, null);
         }
 
         [TestMethod]
@@ -47,12 +58,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var testFeature1 = testSource.AddFeature(new DotSpatial.Topology.Point(1.0, 1.0));
             var testFeature2 = testSource.AddFeature(new DotSpatial.Topology.Point(2.0, 0.0));
 
+            var mockRegionManager = new Mock<IRegionManager>();
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
@@ -80,12 +92,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var testSource = new object();
 
+            var mockRegionManager = new Mock<IRegionManager>();
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource)); // This should throw an ArgumentOutOfRangeException.
 
@@ -96,7 +109,6 @@ namespace GeoViewer.Modules.Structure.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Roots)), Times.Never);
         }
 
-
         [TestMethod]
         public void TestSelected()
         {
@@ -106,12 +118,18 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var testFeature1 = testSource.AddFeature(new DotSpatial.Topology.Point(1.0, 1.0));
             var testFeature2 = testSource.AddFeature(new DotSpatial.Topology.Point(2.0, 0.0));
 
+            var mockRightRegion = new Mock<IRegion>();
+            var mockRegionCollection = new Mock<IRegionCollection>();
+            mockRegionCollection.Setup(m => m.ContainsRegionWithName(It.IsAny<string>())).Returns(true);
+            mockRegionCollection.Setup(m => m[Constants.Region.Right]).Returns(mockRightRegion.Object);
+            var mockRegionManager = new Mock<IRegionManager>();
+            mockRegionManager.Setup(m => m.Regions).Returns(mockRegionCollection.Object);
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
@@ -119,7 +137,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             structureViewModel.Selected = structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.Last();
 
             // Moq doesn't support sequences / verifying the invocation order. See: Java - Mockito - InOrder
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeature0)));
             mockFeatureSelectedEvent.Verify(m => m.Publish(testFeature0));
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeature2)));
             mockFeatureSelectedEvent.Verify(m => m.Publish(testFeature2));
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Exactly(2));
         }
@@ -133,17 +153,19 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var testFeature1 = testSource.AddFeature(new DotSpatial.Topology.Point(1.0, 1.0));
             var testFeature2 = testSource.AddFeature(new DotSpatial.Topology.Point(2.0, 0.0));
 
+            var mockRegionManager = new Mock<IRegionManager>();
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
             structureViewModel.Selected = null;
 
+            mockRegionManager.Verify(m => m.Regions, Times.Never);
             mockFeatureSelectedEvent.Verify(m => m.Publish(It.IsAny<IFeature>()), Times.Never);
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Never);
         }
@@ -157,6 +179,12 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var testFeature1 = testSource.AddFeature(new DotSpatial.Topology.Point(1.0, 1.0));
             var testFeature2 = testSource.AddFeature(new DotSpatial.Topology.Point(2.0, 0.0));
 
+            var mockRightRegion = new Mock<IRegion>();
+            var mockRegionCollection = new Mock<IRegionCollection>();
+            mockRegionCollection.Setup(m => m.ContainsRegionWithName(It.IsAny<string>())).Returns(true);
+            mockRegionCollection.Setup(m => m[Constants.Region.Right]).Returns(mockRightRegion.Object);
+            var mockRegionManager = new Mock<IRegionManager>();
+            mockRegionManager.Setup(m => m.Regions).Returns(mockRegionCollection.Object);
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
@@ -166,7 +194,7 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 .Callback<Action<IFeature>, ThreadOption, bool, Predicate<IFeature>>((a, t, k, f) => mockFeatureSelectedEventCallback = a);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
@@ -175,6 +203,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             mockFeatureSelectedEventCallback(testFeature2);
             Assert.AreEqual(structureViewModel.Root.Children.Single(IsStructureItemViewModel("Features")).Children.Last(), structureViewModel.Selected);
 
+            // Moq doesn't support sequences / verifying the invocation order. See: Java - Mockito - InOrder
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeature0)));
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeature2)));
             mockFeatureSelectedEvent.Verify(m => m.Publish(It.IsAny<IFeature>()), Times.Never);
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Exactly(2));
         }
@@ -189,6 +220,12 @@ namespace GeoViewer.Modules.Structure.ViewModels
             var testFeature1 = testSource.AddFeature(new DotSpatial.Topology.Point(1.0, 1.0));
             var testFeature2 = testSource.AddFeature(new DotSpatial.Topology.Point(2.0, 0.0));
 
+            var mockRightRegion = new Mock<IRegion>();
+            var mockRegionCollection = new Mock<IRegionCollection>();
+            mockRegionCollection.Setup(m => m.ContainsRegionWithName(It.IsAny<string>())).Returns(true);
+            mockRegionCollection.Setup(m => m[Constants.Region.Right]).Returns(mockRightRegion.Object);
+            var mockRegionManager = new Mock<IRegionManager>();
+            mockRegionManager.Setup(m => m.Regions).Returns(mockRegionCollection.Object);
             var mockFeatureSelectedEvent = new Mock<FeatureSelectedEvent>();
             var mockEventAggregator = new Mock<IEventAggregator>();
             mockEventAggregator.Setup(m => m.GetEvent<FeatureSelectedEvent>()).Returns(mockFeatureSelectedEvent.Object);
@@ -198,13 +235,14 @@ namespace GeoViewer.Modules.Structure.ViewModels
                 .Callback<Action<IFeature>, ThreadOption, bool, Predicate<IFeature>>((a, t, k, f) => mockFeatureSelectedEventCallback = a);
             var mockPropertyChangedEventHandler = new Mock<PropertyChangedEventHandler>();
 
-            var structureViewModel = new StructureViewModel(mockEventAggregator.Object);
+            var structureViewModel = new StructureViewModel(mockRegionManager.Object, mockEventAggregator.Object);
             structureViewModel.PropertyChanged += mockPropertyChangedEventHandler.Object;
             structureViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
             mockFeatureSelectedEventCallback(null); // This should throw an ArgumentNullException.
             Assert.IsNull(structureViewModel.Selected);
 
+            mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testSource)));
             mockFeatureSelectedEvent.Verify(m => m.Publish(It.IsAny<IFeature>()), Times.Never);
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Never);
         }
@@ -237,6 +275,11 @@ namespace GeoViewer.Modules.Structure.ViewModels
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)
         {
             return It.Is<PropertyChangedEventArgs>(e => e.PropertyName == PropertySupport.ExtractPropertyName(propertyExpression));
+        }
+
+        private static Uri ItIsUri(string uri)
+        {
+            return It.Is<Uri>(u => u.ToString() == uri);
         }
     }
 }

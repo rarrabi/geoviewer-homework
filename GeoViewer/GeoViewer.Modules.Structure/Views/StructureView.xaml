@@ -3,13 +3,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mmc="http://metro.mahapps.com/winfx/xaml/controls" xmlns:p="http://www.codeplex.com/prism"
         xmlns:gs="clr-namespace:GeoViewer.Modules.Structure" xmlns:gsb="clr-namespace:GeoViewer.Modules.Structure.Behaviors" xmlns:gsvm="clr-namespace:GeoViewer.Modules.Structure.ViewModels"
-        d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gsvm:StructureViewModel}}" mc:Ignorable="d">
+        d:DesignWidth="640" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gsvm:StructureViewModel}}" mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Structure" />
+        <TextBlock Grid.Row="0" Text="Structure" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
         <TreeView Grid.Row="1" ItemsSource="{Binding Roots}">
             <i:Interaction.Behaviors>
                 <gsb:BindableSelectedItemBehavior SelectedItem="{Binding Selected}" />

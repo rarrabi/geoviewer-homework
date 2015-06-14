@@ -39,7 +39,7 @@ namespace GeoViewer.Modules.Welcome.Services
         {
             if (!this.IsValid(this.fileName))
             {
-                // Return an empty list when the file name is invalid.
+                // Return an empty list when the file is invalid.
                 return new List<string>().AsReadOnly();
             }
 
@@ -62,10 +62,10 @@ namespace GeoViewer.Modules.Welcome.Services
         }
 
         /// <summary>
-        /// Determines whether a file name is valid.
+        /// Determines whether a file is valid for loading.
         /// </summary>
         /// <param name="fileName">A string containing the full path of the file.</param>
-        /// <returns>A value indicating whether the file name is valid.</returns>
+        /// <returns>A value indicating whether the file is valid for loading.</returns>
         private bool IsValid(string fileName)
         {
             var fileInfo = new FileInfo(fileName);

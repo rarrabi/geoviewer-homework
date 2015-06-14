@@ -37,16 +37,16 @@ namespace GeoViewer.Modules.Properties.ViewModels
             propertiesViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
             Assert.IsNotNull(propertiesViewModel.Properties);
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Name" && (string)pvm.Value == testSource.Name));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Feature Type" && (DotSpatial.Topology.FeatureType)pvm.Value == testSource.FeatureType));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Feature Count" && (int)pvm.Value == testSource.Features.Count));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Projection" && pvm.Value == testSource.Projection));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Width" && (double)pvm.Value == testSource.Extent.Width));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "Height" && (double)pvm.Value == testSource.Extent.Height));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "MinX" && (double)pvm.Value == testSource.Extent.MinX));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "MaxX" && (double)pvm.Value == testSource.Extent.MaxX));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "MinY" && (double)pvm.Value == testSource.Extent.MinY));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "MaxY" && (double)pvm.Value == testSource.Extent.MaxY));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Name", testSource.Name)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Feature Type", testSource.FeatureType)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Feature Count", testSource.Features.Count)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Projection", testSource.Projection)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Width", testSource.Extent.Width)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("Height", testSource.Extent.Height)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("MinX", testSource.Extent.MinX)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("MaxX", testSource.Extent.MaxX)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("MinY", testSource.Extent.MinY)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("MaxY", testSource.Extent.MaxY)));
 
             mockPropertyChangedEventHandler.Verify(m => m(propertiesViewModel, ItIsProperty(() => propertiesViewModel.Properties)));
         }
@@ -82,10 +82,10 @@ namespace GeoViewer.Modules.Properties.ViewModels
             propertiesViewModel.OnNavigatedTo(this.MockNavigationContext(testSource));
 
             Assert.IsNotNull(propertiesViewModel.Properties);
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == "ID" && pvm.Type == "ID" && (int)pvm.Value == testSource.Fid));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == testName0 && pvm.Type == testType0.Name && (string)pvm.Value == testValue0));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == testName1 && pvm.Type == testType1.Name && (string)pvm.Value == testValue1));
-            Assert.IsTrue(propertiesViewModel.Properties.Any(pvm => pvm.Name == testName2 && pvm.Type == testType2.Name && (string)pvm.Value == testValue2));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel("ID", "ID", testSource.Fid)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel(testName0, testType0.Name, testValue0)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel(testName1, testType1.Name, testValue1)));
+            Assert.IsTrue(propertiesViewModel.Properties.Any(IsPropertiesItemViewModel(testName2, testType2.Name, testValue2)));
 
             mockPropertyChangedEventHandler.Verify(m => m(propertiesViewModel, ItIsProperty(() => propertiesViewModel.Properties)));
         }
@@ -120,6 +120,16 @@ namespace GeoViewer.Modules.Properties.ViewModels
                 { 
                     { Constants.NavigationParameters.Properties.Source, source } 
                 });
+        }
+
+        private static Func<PropertiesItemViewModel, bool> IsPropertiesItemViewModel<T>(string name, T value)
+        {
+            return pivm => pivm.Name == name && object.Equals(pivm.Value, value);
+        }
+
+        private static Func<PropertiesItemViewModel, bool> IsPropertiesItemViewModel<T>(string name, string type, T value)
+        {
+            return pivm => pivm.Name == name && pivm.Type == type && object.Equals(pivm.Value, value);
         }
 
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)

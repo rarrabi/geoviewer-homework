@@ -17,7 +17,7 @@ namespace GeoViewer
     /// <summary>
     /// Provides a bootstrapping sequence for the application.
     /// </summary>
-    /// <see cref="GeoViewer.App"/>
+    /// <see cref="GeoViewer.App" />
     public class Bootstrapper : UnityBootstrapper
     {
         /// <summary>

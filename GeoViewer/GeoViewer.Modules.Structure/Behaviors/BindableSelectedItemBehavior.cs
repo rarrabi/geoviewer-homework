@@ -1,33 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Interactivity;
+using System.Windows.Media;
+using GeoViewer.Common.Utils;
 
 namespace GeoViewer.Modules.Structure.Behaviors
 {
+    // See: http://stackoverflow.com/questions/11065995/binding-selecteditem-in-a-hierarchicaldatatemplate-applied-wpf-treeview/18700099
+
     /// <summary>
-    /// Provides databindable selection state information for a TreeView.
+    /// Behavior that makes the <see cref="TreeView.SelectedItem" /> dependency property databindable.
     /// </summary>
-    //// TODO BindableSelectedItemBehavior
+    /// <remarks>
+    /// The <see cref="TreeView.SelectedItem" /> dependency property is read-only.
+    /// </remarks>
     //// TODO BindableSelectedItemBehaviorTest
     public class BindableSelectedItemBehavior : Behavior<TreeView>
     {
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, SelectedItemPropertyChanged));
-        public static readonly DependencyProperty SelectedValueProperty = DependencyProperty.Register("SelectedValue", typeof(object), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, SelectedValuePropertyChanged));
+        /// <summary>
+        /// Identifies the <see cref="SelectedItem" /> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register("SelectedItem", typeof(object), typeof(BindableSelectedItemBehavior), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedItemPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the selected item.
+        /// Gets or sets the selected item of the <see cref="TreeView" /> that this behavior is attached to.
         /// </summary>
         public object SelectedItem
         {
             get
             {
-                return (object)this.GetValue(SelectedItemProperty);
+                return this.GetValue(SelectedItemProperty);
             }
 
             set
@@ -37,45 +46,122 @@ namespace GeoViewer.Modules.Structure.Behaviors
         }
 
         /// <summary>
-        /// Gets or sets the selected value.
+        /// Called after the behavior is attached to an <see cref="AssociatedObject" />.
         /// </summary>
-        public object SelectedValue
-        {
-            get
-            {
-                return (TreeViewItem)this.GetValue(SelectedValueProperty);
-            }
-
-            set
-            {
-                this.SetValue(SelectedValueProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// Called after the behavior is attached to an AssociatedObject.
-        /// </summary>
+        /// <remarks>
+        /// Override this to hook up functionality to the <see cref="AssociatedObject" />.
+        /// </remarks>
         protected override void OnAttached()
         {
             base.OnAttached();
 
-            BindingOperations.SetBinding(this, SelectedItemProperty, new Binding(TreeView.SelectedItemProperty.Name) { Source = this.AssociatedObject });
+            this.AssociatedObject.SelectedItemChanged += this.TreeViewSelectedItemChanged;
         }
 
         /// <summary>
-        /// Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
+        /// Called when the behavior is being detached from its <see cref="AssociatedObject" />, but before it has actually occurred.
         /// </summary>
+        /// <remarks>
+        /// Override this to unhook functionality from the <see cref="AssociatedObject" />.
+        /// </remarks>
         protected override void OnDetaching()
         {
-            BindingOperations.ClearBinding(this, SelectedItemProperty);
+            this.AssociatedObject.SelectedItemChanged -= this.TreeViewSelectedItemChanged;
 
             base.OnDetaching();
         }
 
         /// <summary>
-        /// The callback that is invoked when the effective property value of the SelectedItemProperty dependency property changes.
+        /// Recursively searches for an element of a certain type in the visual tree.
         /// </summary>
-        /// <param name="d">The System.Windows.DependencyObject on which the property has changed value.</param>
+        /// <typeparam name="T">The type of element to find.</typeparam>
+        /// <param name="parent">The parent element.</param>
+        /// <returns>The element of the specified type</returns>
+        private static T FindVisualDescendant<T>(Visual parent)
+            where T : Visual
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+            {
+                Visual child = (Visual)VisualTreeHelper.GetChild(parent, i) as Visual;
+                if (child != null)
+                {
+                    T element = child as T;
+                    if (element != null)
+                    {
+                        return element;
+                    }
+
+                    T descendantElement = FindVisualDescendant<T>(child);
+                    if (descendantElement != null)
+                    {
+                        return descendantElement;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Recursively searches the <see cref="TreeViewItem" />s of a <see cref="TreeView" /> or <see cref="TreeViewItem" /> for an <see cref="TreeViewItem" /> containing an item.
+        /// </summary>
+        /// <param name="container">A <see cref="TreeView" /> or a <see cref="TreeViewItem" />.</param>
+        /// <param name="item">The item to search for.</param>
+        /// <returns>The <see cref="TreeViewItem" /> that contains the item.</returns>
+        private static TreeViewItem GetTreeViewItem(ItemsControl container, object item)
+        {
+            var treeViewItem = container as TreeViewItem;
+            if (treeViewItem != null && treeViewItem.DataContext == item)
+            {
+                return treeViewItem;
+            }
+
+            // Try to generate the ItemsPresenter and the ItemsPanel by calling ApplyTemplate.
+            container.ApplyTemplate();
+
+            var itemsPresenter = container.Template.FindName("ItemsHost", container) as ItemsPresenter;
+            if (itemsPresenter == null)
+            {
+                // The template has not named the ItemsPresenter as "ItemsHost".
+                itemsPresenter = FindVisualDescendant<ItemsPresenter>(container);
+                if (itemsPresenter == null)
+                {
+                    container.UpdateLayout();
+                    itemsPresenter = FindVisualDescendant<ItemsPresenter>(container);
+                }
+            }
+
+            // Try to generate the ItemsHost Panel and the ItemsPanel by calling ApplyTemplate.
+            itemsPresenter.ApplyTemplate();
+
+            var itemsHostPanel = VisualTreeHelper.GetChild(itemsPresenter, 0) as Panel;
+
+#pragma warning disable 168
+            // Ensure that the generator for this panel has been created.
+            var children = itemsHostPanel.Children;
+#pragma warning restore 168
+
+            foreach (var subItem in container.Items)
+            {
+                var subContainer = container.ItemContainerGenerator.ContainerFromItem(subItem) as TreeViewItem;
+                if (subContainer != null)
+                {
+                    // Search the next level for the object.
+                    var descendantTreeViewItem = GetTreeViewItem(subContainer, item);
+                    if (descendantTreeViewItem != null)
+                    {
+                        return descendantTreeViewItem;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// The callback that is invoked when the effective property value of the <see cref="SelectedItem" /> dependency property changes.
+        /// </summary>
+        /// <param name="d">The <see cref="System.Windows.DependencyObject" /> on which the property has changed value.</param>
         /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
         private static void SelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -83,78 +169,33 @@ namespace GeoViewer.Modules.Structure.Behaviors
         }
 
         /// <summary>
-        /// The callback that is invoked when the effective property value of the SelectedValueProperty dependency property changes.
+        /// The callback that is invoked when the effective property value of the <see cref="SelectedItem" /> dependency property changes.
         /// </summary>
-        /// <param name="d">The System.Windows.DependencyObject on which the property has changed value.</param>
-        /// <param name="e">Event data that is issued by any event that tracks changes to the effective value of this property.</param>
-        private static void SelectedValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((BindableSelectedItemBehavior)d).SelectedValueChanged(e.OldValue, e.NewValue);
-        }
-
-        /// <summary>
-        /// The callback that is invoked when the effective property value of the SelectedItemProperty dependency property changes.
-        /// </summary>
-        /// <param name="oldValue">The old value of the SelectedItemProperty dependency property.</param>
-        /// <param name="newValue">The new value of the SelectedItemProperty dependency property.</param>
+        /// <param name="oldValue">The old value of the <see cref="SelectedItem" /> dependency property.</param>
+        /// <param name="newValue">The new value of the <see cref="SelectedItem" /> dependency property.</param>
         private void SelectedItemChanged(object oldValue, object newValue)
         {
-            // Clear the binding from the old selected item to the selected value.
-            if (oldValue != null)
+            var treeViewItem = newValue as TreeViewItem;
+            if (treeViewItem == null)
             {
-                // oldValue.IsSelected = false;
-                BindingOperations.ClearBinding(this, SelectedValueProperty);
+                treeViewItem = GetTreeViewItem(this.AssociatedObject, newValue);
             }
 
-            // Set the binding from the new selected item to the selected value.
-            if (newValue != null)
+            if (treeViewItem != null)
             {
-                // newValue.IsSelected = true;
-                BindingOperations.SetBinding(this, SelectedValueProperty, new Binding(TreeViewItem.DataContextProperty.Name) { Source = newValue });
+                treeViewItem.IsSelected = true;
+                treeViewItem.BringIntoView();
             }
         }
 
         /// <summary>
-        /// The callback that is invoked when the effective property value of the SelectedValueProperty dependency property changes.
+        /// Occurs when the selected item of the <see cref="TreeView" /> that this behavior is attached to changes.
         /// </summary>
-        /// <param name="oldValue">The old value of the SelectedValueProperty dependency property.</param>
-        /// <param name="newValue">The new value of the SelectedValueProperty dependency property.</param>
-        private void SelectedValueChanged(object oldValue, object newValue)
+        /// <param name="sender">The object where the event handler is attached.</param>
+        /// <param name="e">The event data.</param>
+        private void TreeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            // Update the selected item based on the new selected value.
-            this.SelectedItem = this.FindItem(newValue);
-        }
-
-        /// <summary>
-        /// Searches the items (TreeViewItem) of the associated object (TreeView) for an item with a value (DataContext).
-        /// </summary>
-        /// <param name="value">A value to search for.</param>
-        /// <returns>The item with the value.</returns>
-        private TreeViewItem FindItem(object value)
-        {
-            if (value == null)
-            {
-                // Coalesce nulls: all items should have non-null values.
-                return null;
-            }
-
-            // Breadth-first search.
-            var queue = new Queue<TreeViewItem>(this.AssociatedObject.Items.Cast<TreeViewItem>());
-            while (queue.Count > 0)
-            {
-                var item = queue.Dequeue();
-                if (item.DataContext == value)
-                {
-                    return item;
-                }
-
-                foreach (var child in item.Items.Cast<TreeViewItem>())
-                {
-                    queue.Enqueue(child);
-                }
-            }
-
-            return null;
+            this.SelectedItem = e.NewValue;
         }
     }
 }

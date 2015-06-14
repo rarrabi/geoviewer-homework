@@ -17,7 +17,7 @@ namespace GeoViewer.Modules.Properties.ViewModels
         private readonly object value;
 
         /// <summary>
-        /// Initializes a new instance of the PropertiesItemViewModel class with no children.
+        /// Initializes a new instance of the PropertiesItemViewModel class.
         /// </summary>
         /// <param name="name">The name of the item.</param>
         /// <param name="type">The data type of the item.</param>

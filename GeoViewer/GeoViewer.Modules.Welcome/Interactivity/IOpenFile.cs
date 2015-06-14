@@ -8,7 +8,7 @@ using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 namespace GeoViewer.Modules.Welcome.Interactivity
 {
     /// <summary>
-    /// Represents an interaction request used for browsing files.
+    /// Represents an interaction request used for browsing / opening files.
     /// </summary>
     public interface IOpenFile : IConfirmation
     {

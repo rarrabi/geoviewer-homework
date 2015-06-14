@@ -19,10 +19,13 @@ namespace GeoViewer.Modules.Structure.ViewModels
     /// </summary>
     public class StructureViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        private readonly IRegionManager regionManager;
+
         private readonly FeatureSelectedEvent featureSelectedEvent;
 
-        private IDictionary<IFeature, StructureItemViewModel> items;
-        private IDictionary<StructureItemViewModel, IFeature> sources;
+        private IFeatureSet source;
+        private IDictionary<IFeature, StructureItemViewModel> featureItems;
+        private IDictionary<StructureItemViewModel, IFeature> featureSources;
 
         private StructureItemViewModel root;
         private StructureItemViewModel selected;
@@ -30,13 +33,21 @@ namespace GeoViewer.Modules.Structure.ViewModels
         /// <summary>
         /// Initializes a new instance of the StructureViewModel class.
         /// </summary>
+        /// <param name="regionManager">A Microsoft.Practices.Prism.Regions.IRegionManager.</param>
         /// <param name="eventAggregator">A Microsoft.Practices.Prism.PubSubEvents.IEventAggregator.</param>
-        public StructureViewModel(IEventAggregator eventAggregator)
+        public StructureViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
+            if (regionManager == null)
+            {
+                throw new ArgumentNullException("regionManager");
+            }
+
             if (eventAggregator == null)
             {
                 throw new ArgumentNullException("eventAggregator");
             }
+
+            this.regionManager = regionManager;
 
             this.featureSelectedEvent = eventAggregator.GetEvent<FeatureSelectedEvent>();
             this.featureSelectedEvent.Subscribe(this.OnFeatureSelectedEvent);
@@ -64,6 +75,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
         /// <summary>
         /// Gets the root structure item as an IEnumerable&lt;StructureItemViewModel&gt;.
         /// </summary>
+        /// <remarks>
+        /// Used for data binding to an ItemsControl.
+        /// </remarks>
         public IEnumerable<StructureItemViewModel> Roots
         {
             get
@@ -84,17 +98,10 @@ namespace GeoViewer.Modules.Structure.ViewModels
 
             set
             {
-                if (this.SetProperty(ref this.selected, value))
+                if (this.SetSelected(value))
                 {
-                    if (this.selected != null)
-                    {
-                        // Publish a feature selection event when the selected item is updated to a non-null item.
-                        var source = (IFeature)null;
-                        if (this.sources.TryGetValue(this.selected, out source))
-                        {
-                            this.featureSelectedEvent.Publish(source);
-                        }
-                    }
+                    // Publish a feature selection event when the selected item is changed.
+                    this.PublishSelected();
                 }
             }
         }
@@ -111,12 +118,61 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
 
             var item = (StructureItemViewModel)null;
-            if (this.items.TryGetValue(feature, out item))
+            if (this.featureItems.TryGetValue(feature, out item))
             {
-                // Avoid publishing a feature selection event.
-                this.selected = item;
-                this.OnPropertyChanged(() => this.Selected);
+                this.SetSelected(item);
+
+                // Avoid publishing a feature selection event recursively.
+                //// this.PublishSelected();
             }
+        }
+
+        private void PublishSelected()
+        {
+            if (this.selected == null)
+            {
+                // Avoid publishing a feature selection event when nothing is selected.
+                return;
+            }
+
+            var feature = (IFeature)null;
+            if (this.featureSources.TryGetValue(this.selected, out feature))
+            {
+                this.featureSelectedEvent.Publish(feature);
+            }
+        }
+
+        private bool SetSelected(StructureItemViewModel value)
+        {
+            var changed = this.SetProperty(ref this.selected, value, PropertySupport.ExtractPropertyName(() => this.Selected));
+            if (changed)
+            {
+                var source = (object)this.source;
+
+                // Check whether the source of the selected structure item is a feature.
+                if (this.selected != null)
+                {
+                    var feature = (IFeature)null;
+                    if (this.featureSources.TryGetValue(this.selected, out feature))
+                    {
+                        source = feature;
+                    }
+                }
+
+                if (source != null)
+                {
+                    // Navigate the Right region to the Properties view.
+                    this.regionManager.RequestNavigate(
+                        Constants.Region.Right,
+                        Constants.Navigation.Properties,
+                        new NavigationParameters()
+                        {
+                            { Constants.NavigationParameters.Properties.Source, source }
+                        });
+                }
+            }
+
+            return changed;
         }
 
         /// <summary>
@@ -156,8 +212,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
         {
             var item = new StructureItemViewModel(feature.Fid.ToString(), feature.FeatureType.ToString());
 
-            this.items[feature] = item;
-            this.sources[item] = feature;
+            // Store the mapping betwen the feature and the structure item.
+            this.featureItems[feature] = item;
+            this.featureSources[item] = feature;
 
             return item;
         }
@@ -194,8 +251,9 @@ namespace GeoViewer.Modules.Structure.ViewModels
             if (source is IFeatureSet)
             {
                 var featureSet = (IFeatureSet)source;
-                this.items = new Dictionary<IFeature, StructureItemViewModel>();
-                this.sources = new Dictionary<StructureItemViewModel, IFeature>();
+                this.source = featureSet;
+                this.featureItems = new Dictionary<IFeature, StructureItemViewModel>();
+                this.featureSources = new Dictionary<StructureItemViewModel, IFeature>();
                 this.Root = this.ToStructureItemViewModel(featureSet);
             }
             else

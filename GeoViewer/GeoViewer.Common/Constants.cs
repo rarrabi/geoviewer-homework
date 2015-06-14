@@ -43,6 +43,7 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Welcome
             {
+                // This should be empty.
             }
 
             /// <summary>
@@ -74,6 +75,7 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Geometry
             {
+                // This should be empty.
             }
         }
     }

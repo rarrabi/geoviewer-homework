@@ -19,11 +19,34 @@ namespace GeoViewer.Modules.Welcome.ViewModels
     /// </summary>
     public class WelcomeViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        /// <summary>
+        /// The Microsoft.Practices.Prism.Regions.IRegionManager.
+        /// </summary>
         private readonly IRegionManager regionManager;
+
+        /// <summary>
+        /// The GeoViewer.Modules.Welcome.Services.IFileService.
+        /// </summary>
         private readonly IFileService fileService;
+
+        /// <summary>
+        /// The GeoViewer.Modules.Welcome.Services.IRecentFileService.
+        /// </summary>
         private readonly IRecentFileService recentFileService;
+
+        /// <summary>
+        /// The command for opening files.
+        /// </summary>
         private readonly DelegateCommand openCommand;
+
+        /// <summary>
+        /// The command for opening recent files.
+        /// </summary>
         private readonly DelegateCommand<string> openRecentCommand;
+
+        /// <summary>
+        /// The interaction request for browsing / opening files.
+        /// </summary>
         private readonly InteractionRequest<IOpenFile> openFileInteractionRequest;
 
         /// <summary>

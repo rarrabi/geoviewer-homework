@@ -107,21 +107,6 @@ namespace GeoViewer.Modules.Properties.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(propertiesViewModel, ItIsProperty(() => propertiesViewModel.Properties)), Times.Never);
         }
 
-        private NavigationContext MockNavigationContext(object source)
-        {
-            var mockRegion = new Mock<IRegion>();
-            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
-            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
-
-            return new NavigationContext(
-                mockRegionNavigationService.Object,
-                new Uri(Constants.Navigation.Properties, UriKind.Relative),
-                new NavigationParameters() 
-                { 
-                    { Constants.NavigationParameters.Properties.Source, source } 
-                });
-        }
-
         private static Func<PropertiesItemViewModel, bool> IsPropertiesItemViewModel<T>(string name, T value)
         {
             return pivm => pivm.Name == name && object.Equals(pivm.Value, value);
@@ -135,6 +120,21 @@ namespace GeoViewer.Modules.Properties.ViewModels
         private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)
         {
             return It.Is<PropertyChangedEventArgs>(e => e.PropertyName == PropertySupport.ExtractPropertyName(propertyExpression));
+        }
+
+        private NavigationContext MockNavigationContext(object source)
+        {
+            var mockRegion = new Mock<IRegion>();
+            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
+            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
+
+            return new NavigationContext(
+                mockRegionNavigationService.Object,
+                new Uri(Constants.Navigation.Properties, UriKind.Relative),
+                new NavigationParameters() 
+                { 
+                    { Constants.NavigationParameters.Properties.Source, source } 
+                });
         }
     }
 }

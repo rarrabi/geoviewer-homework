@@ -16,8 +16,28 @@ namespace GeoViewer.Common
         /// </summary>
         public static class Region
         {
+            /// <summary>
+            /// The name of the left region.
+            /// </summary>
+            /// <remarks>
+            /// Views: Structure view.
+            /// </remarks>
             public const string Left = "LeftRegion";
+
+            /// <summary>
+            /// The name of the main region.
+            /// </summary>
+            /// <remarks>
+            /// Views: Welcome view, Attributes view, Geometry view.
+            /// </remarks>
             public const string Main = "MainRegion";
+
+            /// <summary>
+            /// The name of the right region.
+            /// </summary>
+            /// <remarks>
+            /// Views: Properties view.
+            /// </remarks>
             public const string Right = "RightRegion";
         }
 
@@ -26,11 +46,45 @@ namespace GeoViewer.Common
         /// </summary>
         public static class Navigation
         {
-            public const string Welcome = "GeoViewer.Modules.Welcome.Views.WelcomeView"; // typeof(GeoViewer.Modules.Welcome.Views.WelcomeView).FullName;
-            public const string Properties = "GeoViewer.Modules.Properties.Views.PropertiesView"; // typeof(GeoViewer.Modules.Properties.Views.PropertiesView).FullName
-            public const string Structure = "GeoViewer.Modules.Structure.Views.StructureView"; // typeof(GeoViewer.Modules.Structure.Views.StructureView).FullName
-            public const string Attributes = "GeoViewer.Modules.Attributes.Views.AttributesView"; // typeof(GeoViewer.Modules.Attributes.Views.AttributesView).FullName
-            public const string Geometry = "GeoViewer.Modules.Geometry.Views.GeometryView"; // typeof(GeoViewer.Modules.Geometry.Views.GeometryView).FullName
+            /// <summary>
+            /// The URI of the Welcome view.
+            /// </summary>
+            /// <remarks>
+            /// Value: typeof(GeoViewer.Modules.Welcome.Views.WelcomeView).FullName.
+            /// </remarks>
+            public const string Welcome = "GeoViewer.Modules.Welcome.Views.WelcomeView";
+
+            /// <summary>
+            /// The URI of the Properties view.
+            /// </summary>
+            /// <remarks>
+            /// Value: typeof(GeoViewer.Modules.Properties.Views.PropertiesView).FullName.
+            /// </remarks>
+            public const string Properties = "GeoViewer.Modules.Properties.Views.PropertiesView";
+
+            /// <summary>
+            /// The URI of the Structure view.
+            /// </summary>
+            /// <remarks>
+            /// Value: typeof(GeoViewer.Modules.Structure.Views.StructureView).FullName.
+            /// </remarks>
+            public const string Structure = "GeoViewer.Modules.Structure.Views.StructureView";
+
+            /// <summary>
+            /// The URI of the Attributes view.
+            /// </summary>
+            /// <remarks>
+            /// Value: typeof(GeoViewer.Modules.Attributes.Views.AttributesView).FullName.
+            /// </remarks>
+            public const string Attributes = "GeoViewer.Modules.Attributes.Views.AttributesView";
+
+            /// <summary>
+            /// The URI of the Geometry view.
+            /// </summary>
+            /// <remarks>
+            /// Value: typeof(GeoViewer.Modules.Geometry.Views.GeometryView).FullName.
+            /// </remarks>
+            public const string Geometry = "GeoViewer.Modules.Geometry.Views.GeometryView";
         }
 
         /// <summary>
@@ -51,7 +105,13 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Properties
             {
-                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet or DotSpatial.Data.IFeature
+                /// <summary>
+                /// The source of the properties.
+                /// </summary>
+                /// <remarks>
+                /// Type: DotSpatial.Data.IFeatureSet or DotSpatial.Data.IFeature.
+                /// </remarks>
+                public const string Source = "Source";
             }
 
             /// <summary>
@@ -59,7 +119,13 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Structure
             {
-                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet
+                /// <summary>
+                /// The source of the structure.
+                /// </summary>
+                /// <remarks>
+                /// Type: DotSpatial.Data.IFeatureSet.
+                /// </remarks>
+                public const string Source = "Source";
             }
 
             /// <summary>
@@ -67,7 +133,13 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Attributes
             {
-                public const string Source = "Source"; // type: DotSpatial.Data.IFeatureSet
+                /// <summary>
+                /// The source of the attributes.
+                /// </summary>
+                /// <remarks>
+                /// Type: DotSpatial.Data.IFeatureSet.
+                /// </remarks>
+                public const string Source = "Source";
             }
 
             /// <summary>

@@ -16,10 +16,13 @@ namespace GeoViewer.Modules.Attributes.ViewModels
     /// </summary>
     public class AttributesViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        /// <summary>
+        /// The data view containing the attributes.
+        /// </summary>
         private DataView attributes;
 
         /// <summary>
-        /// Gets a data view containing the attributes.
+        /// Gets the data view containing the attributes.
         /// </summary>
         public DataView Attributes
         {

@@ -12,8 +12,19 @@ namespace GeoViewer.Modules.Properties.ViewModels
     /// </summary>
     public class PropertiesItemViewModel : BindableBase
     {
+        /// <summary>
+        /// The name of the item.
+        /// </summary>
         private readonly string name;
+
+        /// <summary>
+        /// The data type of the item.
+        /// </summary>
         private readonly string type;
+
+        /// <summary>
+        /// The value of the item.
+        /// </summary>
         private readonly object value;
 
         /// <summary>

@@ -13,6 +13,9 @@ namespace GeoViewer.Modules.Welcome.Services
     /// </summary>
     public class XmlRecentFileService : RecentFileService
     {
+        /// <summary>
+        /// The string containing the full path of the XML file.
+        /// </summary>
         private readonly string fileName;
 
         /// <summary>

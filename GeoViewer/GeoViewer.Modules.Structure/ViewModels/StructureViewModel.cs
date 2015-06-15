@@ -19,15 +19,39 @@ namespace GeoViewer.Modules.Structure.ViewModels
     /// </summary>
     public class StructureViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        /// <summary>
+        /// The Microsoft.Practices.Prism.Regions.IRegionManager.
+        /// </summary>
         private readonly IRegionManager regionManager;
 
+        /// <summary>
+        /// The event used for publishing feature selection based on the selected structure item.
+        /// </summary>
         private readonly FeatureSelectedEvent featureSelectedEvent;
 
+        /// <summary>
+        /// The source of the structure item hierarchy.
+        /// </summary>
         private IFeatureSet source;
+
+        /// <summary>
+        /// The mapping between features and structure items.
+        /// </summary>
         private IDictionary<IFeature, StructureItemViewModel> featureItems;
+
+        /// <summary>
+        /// The mapping between  structure items and features.
+        /// </summary>
         private IDictionary<StructureItemViewModel, IFeature> featureSources;
 
+        /// <summary>
+        /// The root of the structure item hierarchy.
+        /// </summary>
         private StructureItemViewModel root;
+
+        /// <summary>
+        /// The selected structure item.
+        /// </summary>
         private StructureItemViewModel selected;
 
         /// <summary>
@@ -127,6 +151,12 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Publishes a feature selection event based on the selected structure item.
+        /// </summary>
+        /// <remarks>
+        /// Only publishes a feature selection event when the selected structure item is a feature.
+        /// </remarks>
         private void PublishSelected()
         {
             if (this.selected == null)
@@ -142,6 +172,11 @@ namespace GeoViewer.Modules.Structure.ViewModels
             }
         }
 
+        /// <summary>
+        /// Sets the the selected structure item.
+        /// </summary>
+        /// <param name="value">A structure item.</param>
+        /// <returns>A value indicating whether the value was changed.</returns>
         private bool SetSelected(StructureItemViewModel value)
         {
             var changed = this.SetProperty(ref this.selected, value, PropertySupport.ExtractPropertyName(() => this.Selected));

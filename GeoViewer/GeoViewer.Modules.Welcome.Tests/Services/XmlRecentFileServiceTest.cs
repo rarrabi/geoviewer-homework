@@ -12,6 +12,9 @@ namespace GeoViewer.Modules.Welcome.Services
     [TestClass]
     public class XmlRecentFileServiceTest
     {
+        /// <summary>
+        /// The string containing the full path of the test file.
+        /// </summary>
         private string testFileName;
 
         [TestInitialize]

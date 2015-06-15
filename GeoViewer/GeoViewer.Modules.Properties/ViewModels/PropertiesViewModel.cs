@@ -17,6 +17,9 @@ namespace GeoViewer.Modules.Properties.ViewModels
     /// </summary>
     public class PropertiesViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
+        /// <summary>
+        /// The list of properties items.
+        /// </summary>
         private SCG.IReadOnlyList<PropertiesItemViewModel> properties;
 
         /// <summary>

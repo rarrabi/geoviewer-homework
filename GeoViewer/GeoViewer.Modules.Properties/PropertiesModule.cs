@@ -15,7 +15,14 @@ namespace GeoViewer.Modules.Properties
     /// </summary>
     public class PropertiesModule : IModule
     {
+        /// <summary>
+        /// The Microsoft.Practices.Prism.Logging.ILoggerFacade.
+        /// </summary>
         private readonly ILoggerFacade logger;
+
+        /// <summary>
+        /// The Microsoft.Practices.Unity.IUnityContainer.
+        /// </summary>
         private readonly IUnityContainer container;
 
         /// <summary>

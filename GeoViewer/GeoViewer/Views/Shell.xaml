@@ -16,7 +16,13 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ContentControl Grid.Column="0" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Left}" />
-        <ContentControl Grid.Column="2" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Main}" />
+        <TabControl Grid.Column="2" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Main}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource MetroTabItem}">
+                    <Setter Property="Header" Value="{Binding Content.Name, RelativeSource={RelativeSource Self}}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
         <ContentControl Grid.Column="4" p:RegionManager.RegionName="{x:Static gc:Constants+Region.Right}" />
     </Grid>
 </mmc:MetroWindow>

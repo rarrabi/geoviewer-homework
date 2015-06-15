@@ -169,15 +169,14 @@ namespace GeoViewer.Modules.Welcome.ViewModels
                     { Constants.NavigationParameters.Attributes.Source, featureSet }
                 });
 
-            // TODO WelcomeViewModel#Open
             // Navigate the Main region to the Geometry view.
-            //// this.regionManager.RequestNavigate(
-            ////     Constants.Region.Main,
-            ////     Constants.Navigation.Geometry,
-            ////     new NavigationParameters()
-            ////     {
-            ////         { Constants.NavigationParameters.Geometry.Source, featureSet }
-            ////     });
+            this.regionManager.RequestNavigate(
+                Constants.Region.Main,
+                Constants.Navigation.Geometry,
+                new NavigationParameters()
+                 {
+                     { Constants.NavigationParameters.Geometry.Source, featureSet }
+                 });
 
             // Navigate the Left region to the Structure view.
             this.regionManager.RequestNavigate(

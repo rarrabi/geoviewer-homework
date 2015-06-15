@@ -90,8 +90,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(welcomeViewModel, ItIsProperty(() => welcomeViewModel.RecentFiles)));
             mockRegionManager.Verify(m => m.Regions);
             mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
-            // TODO WelcomeViewModelTest#TestOpenCommand
-            //// mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
+            mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
             mockLeftRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
             mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
         }
@@ -154,8 +153,7 @@ namespace GeoViewer.Modules.Welcome.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(welcomeViewModel, ItIsProperty(() => welcomeViewModel.RecentFiles)));
             mockRegionManager.Verify(m => m.Regions);
             mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Attributes), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Attributes.Source] == testFeatureSet)));
-            // TODO WelcomeViewModelTest#TestOpenRecentCommand
-            //// mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
+            mockMainRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Geometry), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Geometry.Source] == testFeatureSet)));
             mockLeftRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Structure), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Structure.Source] == testFeatureSet)));
             mockRightRegion.Verify(m => m.RequestNavigate(ItIsUri(Constants.Navigation.Properties), It.IsAny<Action<NavigationResult>>(), It.Is<NavigationParameters>(np => np[Constants.NavigationParameters.Properties.Source] == testFeatureSet)));
         }

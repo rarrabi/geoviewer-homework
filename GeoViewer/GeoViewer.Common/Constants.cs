@@ -147,7 +147,13 @@ namespace GeoViewer.Common
             /// </summary>
             public static class Geometry
             {
-                // This should be empty.
+                /// <summary>
+                /// The source of the geometry.
+                /// </summary>
+                /// <remarks>
+                /// Type: DotSpatial.Data.IFeatureSet.
+                /// </remarks>
+                public const string Source = "Source";
             }
         }
     }

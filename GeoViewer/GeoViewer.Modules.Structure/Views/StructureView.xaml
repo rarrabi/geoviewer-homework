@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Structure" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
+        <TextBlock Grid.Row="0" Text="Structure" Style="{DynamicResource TabItemHeaderTextBlock}" />
         <TreeView Grid.Row="1" ItemsSource="{Binding Roots}">
             <i:Interaction.Behaviors>
                 <gsb:BindableSelectedItemBehavior SelectedItem="{Binding Selected}" />

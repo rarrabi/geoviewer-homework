@@ -3,6 +3,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mmc="http://metro.mahapps.com/winfx/xaml/controls" xmlns:p="http://www.codeplex.com/prism"
         xmlns:gw="clr-namespace:GeoViewer.Modules.Welcome" xmlns:gwi="clr-namespace:GeoViewer.Modules.Welcome.Interactivity" xmlns:gwvm="clr-namespace:GeoViewer.Modules.Welcome.ViewModels"
+        Name="Welcome"
         d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gwvm:WelcomeViewModel}}" mc:Ignorable="d">
     <i:Interaction.Triggers>
         <p:InteractionRequestTrigger SourceObject="{Binding OpenFileInteractionRequest}">
@@ -13,13 +14,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Welcome" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
-        <Button Grid.Row="1" Command="{Binding OpenCommand}" Content="Open..." HorizontalAlignment="Left" />
-        <TextBlock Grid.Row="2" Text="Recent Files" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource FlyoutHeaderFontSize}" />
-        <ItemsControl Grid.Row="3" ItemsSource="{Binding RecentFiles}" HorizontalAlignment="Left">
+        <Button Grid.Row="0" Command="{Binding OpenCommand}" Content="Open..." HorizontalAlignment="Left" />
+        <TextBlock Grid.Row="1" Text="Recent Files" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource FlyoutHeaderFontSize}" />
+        <ItemsControl Grid.Row="2" ItemsSource="{Binding RecentFiles}" HorizontalAlignment="Left">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" />

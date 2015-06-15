@@ -9,7 +9,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Properties" FontFamily="{DynamicResource HeaderFontFamily}" FontSize="{DynamicResource SubHeaderFontSize}" />
+        <TextBlock Grid.Row="0" Text="Properties" Style="{DynamicResource TabItemHeaderTextBlock}" />
         <DataGrid Grid.Row="1" ItemsSource="{Binding Properties}"
                   AutoGenerateColumns="False" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
             <DataGrid.Columns>

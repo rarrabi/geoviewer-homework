@@ -15,7 +15,26 @@ namespace GeoViewer.Modules.Geometry.ViewModels
     /// </summary>
     public class GeometryViewModel : BindableBase, INavigationAware, IRegionMemberLifetime
     {
-        // TODO GeometryViewModel
+        /// <summary>
+        /// The feature set containing the geometries.
+        /// </summary>
+        private IFeatureSet featureSet;
+
+        /// <summary>
+        /// Gets the feature set containing the geometries.
+        /// </summary>
+        public IFeatureSet FeatureSet
+        {
+            get
+            {
+                return this.featureSet;
+            }
+
+            private set
+            {
+                this.SetProperty(ref this.featureSet, value);
+            }
+        }
 
         #region INavigationAware
 
@@ -50,7 +69,7 @@ namespace GeoViewer.Modules.Geometry.ViewModels
             if (source is IFeatureSet)
             {
                 var featureSet = (IFeatureSet)source;
-                // TODO GeometryViewModel#OnNavigatedTo
+                this.FeatureSet = featureSet;
             }
             else
             {

@@ -247,21 +247,6 @@ namespace GeoViewer.Modules.Structure.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(structureViewModel, ItIsProperty(() => structureViewModel.Selected)), Times.Never);
         }
 
-        private NavigationContext MockNavigationContext(object source)
-        {
-            var mockRegion = new Mock<IRegion>();
-            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
-            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
-
-            return new NavigationContext(
-                mockRegionNavigationService.Object,
-                new Uri(Constants.Navigation.Structure, UriKind.Relative),
-                new NavigationParameters() 
-                { 
-                    { Constants.NavigationParameters.Structure.Source, source } 
-                });
-        }
-
         private static Func<StructureItemViewModel, bool> IsStructureItemViewModel(string name)
         {
             return sivm => sivm.Name == name;
@@ -280,6 +265,21 @@ namespace GeoViewer.Modules.Structure.ViewModels
         private static Uri ItIsUri(string uri)
         {
             return It.Is<Uri>(u => u.ToString() == uri);
+        }
+
+        private NavigationContext MockNavigationContext(object source)
+        {
+            var mockRegion = new Mock<IRegion>();
+            var mockRegionNavigationService = new Mock<IRegionNavigationService>();
+            mockRegionNavigationService.Setup(m => m.Region).Returns(mockRegion.Object);
+
+            return new NavigationContext(
+                mockRegionNavigationService.Object,
+                new Uri(Constants.Navigation.Structure, UriKind.Relative),
+                new NavigationParameters() 
+                { 
+                    { Constants.NavigationParameters.Structure.Source, source } 
+                });
         }
     }
 }

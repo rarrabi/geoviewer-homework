@@ -13,8 +13,14 @@ namespace GeoViewer.Modules.Welcome.Services
     /// <see cref="GeoViewer.Modules.Welcome.Services.IRecentFileService" />
     public abstract class RecentFileService : IRecentFileService
     {
+        /// <summary>
+        /// The size of the list of recent files.
+        /// </summary>
         private readonly int size;
 
+        /// <summary>
+        /// The list of recent files.
+        /// </summary>
         private IReadOnlyList<string> recentFiles;
 
         /// <summary>

@@ -12,8 +12,19 @@ namespace GeoViewer.Modules.Structure.ViewModels
     /// </summary>
     public class StructureItemViewModel : BindableBase
     {
+        /// <summary>
+        /// The name of the item.
+        /// </summary>
         private readonly string name;
+
+        /// <summary>
+        /// The data type of the item.
+        /// </summary>
         private readonly string type;
+
+        /// <summary>
+        /// The children of the item.
+        /// </summary>
         private readonly IReadOnlyList<StructureItemViewModel> children;
 
         /// <summary>

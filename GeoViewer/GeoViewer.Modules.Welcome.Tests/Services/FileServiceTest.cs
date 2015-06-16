@@ -14,6 +14,9 @@ namespace GeoViewer.Modules.Welcome.Services
     [TestClass]
     public class FileServiceTest
     {
+        /// <summary>
+        /// The string containing the full path of the test file.
+        /// </summary>
         private string testFileName;
 
         [TestInitialize]

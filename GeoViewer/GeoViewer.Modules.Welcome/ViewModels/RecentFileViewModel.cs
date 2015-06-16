@@ -13,6 +13,9 @@ namespace GeoViewer.Modules.Welcome.ViewModels
     /// </summary>
     public class RecentFileViewModel : BindableBase
     {
+        /// <summary>
+        /// The string containing the full path of the file.
+        /// </summary>
         private readonly string fileName;
 
         /// <summary>

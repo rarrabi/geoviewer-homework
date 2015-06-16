@@ -64,20 +64,38 @@ namespace GeoViewer.Modules.Welcome.Services
             Assert.IsTrue(Enumerable.SequenceEqual(testRecentFiles.Take(testRecentFiles.Count() - 1), recentFileService.RecentFiles.Skip(1)));
         }
 
+        /// <summary>
+        /// A test service for handling the list of recent files.
+        /// </summary>
         private class TestRecentFileService : RecentFileService
         {
+            /// <summary>
+            /// Initializes a new instance of the TestRecentFileService class.
+            /// </summary>
+            /// <param name="size">The size of the list of recent files.</param>
             public TestRecentFileService(int size)
                 : base(size)
             {
             }
 
+            /// <summary>
+            /// Gets the list of test recent files.
+            /// </summary>
             public IReadOnlyList<string> TestRecentFiles { get; set; }
 
+            /// <summary>
+            /// Loads the list of recent files from a persistent storage (the test recent files).
+            /// </summary>
+            /// <returns>The list of recent files.</returns>
             protected override IReadOnlyList<string> LoadRecentFiles()
             {
                 return this.TestRecentFiles;
             }
 
+            /// <summary>
+            /// Saves the list of recent files to a persistent storage (the test recent files).
+            /// </summary>
+            /// <param name="recentFiles">The list of recent files.</param>
             protected override void SaveRecentFiles(IReadOnlyList<string> recentFiles)
             {
                 this.TestRecentFiles = recentFiles;

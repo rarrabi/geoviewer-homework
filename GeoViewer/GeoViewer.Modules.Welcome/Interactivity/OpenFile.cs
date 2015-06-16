@@ -13,6 +13,10 @@ namespace GeoViewer.Modules.Welcome.Interactivity
     /// <see cref="GeoViewer.Modules.Welcome.Interactivity.IOpenFile" />
     public class OpenFile : Confirmation, IOpenFile
     {
+        /// <summary>
+        /// The filter string that determines what types of files are displayed.
+        /// See: https://msdn.microsoft.com/en-us/library/microsoft.win32.filedialog.filter(v=vs.110).aspx
+        /// </summary>
         private readonly string filter;
 
         /// <summary>

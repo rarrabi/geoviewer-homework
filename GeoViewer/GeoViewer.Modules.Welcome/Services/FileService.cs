@@ -14,6 +14,9 @@ namespace GeoViewer.Modules.Welcome.Services
     /// <see cref="GeoViewer.Modules.Welcome.Services.IFileService" />
     public class FileService : IFileService
     {
+        /// <summary>
+        /// The GeoViewer.Modules.Welcome.Services.IRecentFileService.
+        /// </summary>
         private readonly IRecentFileService recentFileService;
 
         /// <summary>

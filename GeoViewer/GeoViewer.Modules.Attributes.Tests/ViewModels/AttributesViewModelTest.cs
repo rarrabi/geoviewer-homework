@@ -79,6 +79,11 @@ namespace GeoViewer.Modules.Attributes.ViewModels
             mockPropertyChangedEventHandler.Verify(m => m(attributesViewModel, ItIsProperty(() => attributesViewModel.Attributes)), Times.Never);
         }
 
+        private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)
+        {
+            return It.Is<PropertyChangedEventArgs>(e => e.PropertyName == PropertySupport.ExtractPropertyName(propertyExpression));
+        }
+
         private NavigationContext MockNavigationContext(object source)
         {
             var mockRegion = new Mock<IRegion>();
@@ -92,11 +97,6 @@ namespace GeoViewer.Modules.Attributes.ViewModels
                 { 
                     { Constants.NavigationParameters.Attributes.Source, source } 
                 });
-        }
-
-        private static PropertyChangedEventArgs ItIsProperty<T>(Expression<Func<T>> propertyExpression)
-        {
-            return It.Is<PropertyChangedEventArgs>(e => e.PropertyName == PropertySupport.ExtractPropertyName(propertyExpression));
         }
     }
 }

@@ -4,7 +4,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mmc="http://metro.mahapps.com/winfx/xaml/controls" xmlns:p="http://www.codeplex.com/prism"
         xmlns:ga="clr-namespace:GeoViewer.Modules.Attributes" xmlns:gavm="clr-namespace:GeoViewer.Modules.Attributes.ViewModels"
         Name="Attributes"
-        d:DesignWidth="1280" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gavm:AttributesViewModel}}" mc:Ignorable="d">
+        d:DesignWidth="960" d:DesignHeight="720" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type gavm:AttributesViewModel}}" mc:Ignorable="d">
     <Grid>
         <DataGrid ItemsSource="{Binding Attributes}" CanUserReorderColumns="False" CanUserResizeColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" />
     </Grid>

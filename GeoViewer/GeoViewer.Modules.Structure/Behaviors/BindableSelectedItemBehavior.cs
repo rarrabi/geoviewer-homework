@@ -13,13 +13,12 @@ using GeoViewer.Common.Utils;
 
 namespace GeoViewer.Modules.Structure.Behaviors
 {
-    // See: http://stackoverflow.com/questions/11065995/binding-selecteditem-in-a-hierarchicaldatatemplate-applied-wpf-treeview/18700099
-
     /// <summary>
     /// Behavior that makes the <see cref="TreeView.SelectedItem" /> dependency property databindable.
     /// </summary>
     /// <remarks>
     /// The <see cref="TreeView.SelectedItem" /> dependency property is read-only.
+    /// See: http://stackoverflow.com/questions/11065995/binding-selecteditem-in-a-hierarchicaldatatemplate-applied-wpf-treeview/18700099
     /// </remarks>
     //// TODO BindableSelectedItemBehaviorTest
     public class BindableSelectedItemBehavior : Behavior<TreeView>

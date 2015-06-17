@@ -34,6 +34,7 @@ namespace GeoViewer.Common
             Assert.IsFalse(string.IsNullOrWhiteSpace(Constants.NavigationParameters.Structure.Source));
             Assert.IsFalse(string.IsNullOrWhiteSpace(Constants.NavigationParameters.Properties.Source));
             Assert.IsFalse(string.IsNullOrWhiteSpace(Constants.NavigationParameters.Attributes.Source));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(Constants.NavigationParameters.Geometry.Source));
         }
     }
 }

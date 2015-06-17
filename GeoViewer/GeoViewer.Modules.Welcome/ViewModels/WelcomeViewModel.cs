@@ -156,45 +156,52 @@ namespace GeoViewer.Modules.Welcome.ViewModels
         /// <param name="fileName">A string containing the full path of the file.</param>
         private void Open(string fileName)
         {
-            var featureSet = this.fileService.Open(fileName);
+            try
+            {
+                var featureSet = this.fileService.Open(fileName);
 
-            this.OnPropertyChanged(() => this.RecentFiles);
+                this.OnPropertyChanged(() => this.RecentFiles);
 
-            // Navigate the Main region to the Attributes view.
-            this.regionManager.RequestNavigate(
-                Constants.Region.Main,
-                Constants.Navigation.Attributes,
-                new NavigationParameters()
-                {
-                    { Constants.NavigationParameters.Attributes.Source, featureSet }
-                });
+                // Navigate the Main region to the Attributes view.
+                this.regionManager.RequestNavigate(
+                    Constants.Region.Main,
+                    Constants.Navigation.Attributes,
+                    new NavigationParameters()
+                    {
+                        { Constants.NavigationParameters.Attributes.Source, featureSet }
+                    });
 
-            // Navigate the Main region to the Geometry view.
-            this.regionManager.RequestNavigate(
-                Constants.Region.Main,
-                Constants.Navigation.Geometry,
-                new NavigationParameters()
-                 {
-                     { Constants.NavigationParameters.Geometry.Source, featureSet }
-                 });
+                // Navigate the Main region to the Geometry view.
+                this.regionManager.RequestNavigate(
+                    Constants.Region.Main,
+                    Constants.Navigation.Geometry,
+                    new NavigationParameters()
+                     {
+                         { Constants.NavigationParameters.Geometry.Source, featureSet }
+                     });
 
-            // Navigate the Left region to the Structure view.
-            this.regionManager.RequestNavigate(
-                Constants.Region.Left,
-                Constants.Navigation.Structure,
-                new NavigationParameters()
-                 {
-                     { Constants.NavigationParameters.Structure.Source, featureSet }
-                 });
+                // Navigate the Left region to the Structure view.
+                this.regionManager.RequestNavigate(
+                    Constants.Region.Left,
+                    Constants.Navigation.Structure,
+                    new NavigationParameters()
+                     {
+                         { Constants.NavigationParameters.Structure.Source, featureSet }
+                     });
 
-            // Navigate the Right region to the Properties view.
-            this.regionManager.RequestNavigate(
-                Constants.Region.Right,
-                Constants.Navigation.Properties,
-                new NavigationParameters()
-                 {
-                     { Constants.NavigationParameters.Properties.Source, featureSet }
-                 });
+                // Navigate the Right region to the Properties view.
+                this.regionManager.RequestNavigate(
+                    Constants.Region.Right,
+                    Constants.Navigation.Properties,
+                    new NavigationParameters()
+                    {
+                         { Constants.NavigationParameters.Properties.Source, featureSet }
+                     });
+            }
+            catch (Exception)
+            {
+                // TODO WelcomeViewModel#Open Display a user friendly error message.
+            }
         }
 
         private IEnumerable<RecentFileViewModel> ToRecentFileViewModels(IEnumerable<string> recentFiles)
